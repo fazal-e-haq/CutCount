@@ -1,0 +1,25 @@
+import 'package:cut_count/screens/home_screen.dart';
+import 'package:cut_count/screens/sign_in_screen.dart';
+import 'package:cut_count/screens/sign_up_screen.dart';
+import 'package:cut_count/screens/splash_screen.dart';
+import 'package:go_router/go_router.dart';
+
+GoRouter get router => _router;
+final _router = GoRouter(
+  initialLocation: '/', // Where the app starts
+  routes: [
+    GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
+
+    GoRoute(
+      name: '/SignIn',
+      path: '/SignIn',
+      builder: (context, state) => const SignInScreen(),
+    ),
+    GoRoute(
+      name: '/SignUp',
+      path: '/SignUp',
+      builder: (context, state) => const SignUpScreen(),
+    ),
+    GoRoute(path: '/Home', builder: (context, state) => const HomeScreen()),
+  ],
+);

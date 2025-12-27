@@ -1,8 +1,16 @@
 import 'package:cut_count/screens/splash_screen.dart';
 import 'package:cut_count/theme/dark_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:cut_count/routes/app_route.dart';
 
-void main() {
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+     options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(CutCountApp());
 }
 
@@ -11,11 +19,13 @@ class CutCountApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: darkTheme,
+      routerConfig: router,
 
-      home: const SplashScreen(),
+
+
     );
   }
 }
