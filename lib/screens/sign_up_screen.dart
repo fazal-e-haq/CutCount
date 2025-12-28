@@ -1,10 +1,98 @@
+import 'package:cut_count/widgets/custom_button.dart';
+import 'package:cut_count/widgets/login_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+  SignUpScreen({super.key});
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          reverse: true,
+          child: Padding(
+            padding: .symmetric(horizontal: 26),
+            child: Column(
+              mainAxisAlignment: .center,
+
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+                Text(
+                  'Sign Up',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                Text(
+                  'Welcome',
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                Text(
+                  'Sign Up with your email and password  \nor continue with social media',
+                  textAlign: .center,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                LoginTextfield(
+                  isObsure: false,
+                  controller: userNameController,
+                  hintText: 'User name',
+                  prefixIcon: Icon(Icons.person),
+                ),
+                SizedBox(height: 10),
+                LoginTextfield(
+                  isObsure: false,
+                  controller: emailController,
+                  hintText: 'Email',
+                  prefixIcon: Icon(Icons.mail),
+                ),
+                SizedBox(height: 10),
+                LoginTextfield(
+                  isObsure: true,
+                  controller: passwordController,
+                  hintText: 'Password',
+                  prefixIcon: Icon(Icons.lock),
+                ),
+                SizedBox(height: 10),
+                LoginTextfield(
+                  isObsure: true,
+                  controller: confirmPasswordController,
+                  hintText: 'Confirm Password',
+                  prefixIcon: Icon(Icons.lock),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.11),
+                CustomButton(
+                  onTap: () {
+                    context.pushReplacement('/SignIn');
+                  },
+                  text: 'Sign Up',
+                ),
+                SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: .center,
+                  children: [
+                    Text(
+                      'Already have an account ? ',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    GestureDetector(
+                      onTap: () => context.pushNamed('/SignIn'),
+                      child: Text('Sign In', style: TextStyle(fontSize: 14 )),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

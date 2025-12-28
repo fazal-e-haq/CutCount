@@ -18,7 +18,7 @@ final _router = GoRouter(
     GoRoute(
       name: '/SignUp',
       path: '/SignUp',
-      builder: (context, state) => const SignUpScreen(),
+      builder: (context, state) =>  SignUpScreen(),
     ),
     GoRoute(
       name: '/Home',

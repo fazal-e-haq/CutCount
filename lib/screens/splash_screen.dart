@@ -17,8 +17,11 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: .center,
           children: [
-            Image.asset("assets/images/splash.png", height: 600),
-            const SizedBox(height: 50),
+            Image.asset(
+              "assets/images/splash.png",
+              height: MediaQuery.of(context).size.height * 0.6,
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.08),
             GestureDetector(
               onTap: () {
                 context.pushNamed('/SignIn');

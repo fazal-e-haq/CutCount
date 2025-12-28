@@ -8,13 +8,13 @@ textTheme: TextTheme(
 bodySmall:    GoogleFonts.poppins(
 
     color: Colors.grey,
-    fontSize: 14,
+    fontSize: 12,
 
     fontWeight: .w300
 ),
   bodyMedium: GoogleFonts.poppins(
 
-  color: Colors.white,
+  color: Colors.white54,
   fontSize: 22,
 fontWeight: .w500
 ),
@@ -24,7 +24,7 @@ fontWeight: .w500
       fontWeight: .w500
   ),
   headlineLarge: GoogleFonts.poppins(
-      color: Colors.white,
+      color: Colors.white54,
       fontSize: 30,
       fontWeight: .w600
   ),

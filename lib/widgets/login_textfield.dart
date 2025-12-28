@@ -30,7 +30,7 @@ class LoginTextfield extends StatelessWidget {
           borderSide: BorderSide(color: Color(0xffE95401), width: 2),
         ),
         enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
+          borderSide: BorderSide(color: Colors.white12),
         ),
       ),
     );
