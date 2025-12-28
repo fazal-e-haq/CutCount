@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: .center,
           children: [
-            Image.asset("assets/images/splash.png", height: 400),
+            Image.asset("assets/images/splash.png", height: 600),
             const SizedBox(height: 50),
             GestureDetector(
               onTap: () {
