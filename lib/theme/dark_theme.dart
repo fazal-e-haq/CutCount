@@ -6,11 +6,14 @@ ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: const Color(0xff1A1A1A),
 textTheme: TextTheme(
 bodySmall:    GoogleFonts.poppins(
+
     color: Colors.grey,
     fontSize: 14,
+
     fontWeight: .w300
 ),
   bodyMedium: GoogleFonts.poppins(
+
   color: Colors.white,
   fontSize: 22,
 fontWeight: .w500
