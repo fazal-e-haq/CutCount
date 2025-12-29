@@ -2,6 +2,7 @@ import 'package:cut_count/widgets/custom_button.dart';
 import 'package:cut_count/widgets/login_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -9,6 +10,28 @@ class SignUpScreen extends StatelessWidget {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
+
+  void signing_up() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.createUserWithEmailAndPassword(
+      email: emailController.toString(),
+      password: passwordController.toString(),
+    );
+  }
+
+  void verifying(BuildContext context) {
+    if (userNameController.text.isNotEmpty &&
+        emailController.text.isNotEmpty &&
+        passwordController.text.isNotEmpty &&
+        confirmPasswordController.text.isNotEmpty) {
+      if (!emailController.text.endsWith('@gmail.com')) {
+        print('please provide right email');
+      } else {
+        signing_up();
+        context.pushReplacement('/SignIn');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +93,7 @@ class SignUpScreen extends StatelessWidget {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.11),
                 CustomButton(
                   onTap: () {
-                    context.pushReplacement('/SignIn');
+                    verifying(context);
                   },
                   text: 'Sign Up',
                 ),
@@ -84,7 +107,7 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () => context.pushNamed('/SignIn'),
-                      child: Text('Sign In', style: TextStyle(fontSize: 14 )),
+                      child: Text('Sign In', style: TextStyle(fontSize: 14)),
                     ),
                   ],
                 ),

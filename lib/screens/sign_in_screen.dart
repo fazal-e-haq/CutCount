@@ -1,5 +1,6 @@
 import 'package:cut_count/widgets/custom_button.dart';
 import 'package:cut_count/widgets/login_textfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,6 +8,24 @@ class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  void signing_in() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth.signInWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+
+  }
+  void verifying(BuildContext context){
+    if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
+      if(!emailController.text.endsWith('@gmail.com')){
+        print('give right email');
+      }else{
+        signing_in();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +63,7 @@ class SignInScreen extends StatelessWidget {
                   hintText: 'Email',
                   prefixIcon: Icon(Icons.mail),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 10),
                 LoginTextfield(
                   isObsure: true,
                   controller: passwordController,
@@ -54,7 +73,8 @@ class SignInScreen extends StatelessWidget {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.22),
                 CustomButton(
                   onTap: () {
-                    context.pushReplacement('/Home');
+                     verifying(context);
+
                   },
                   text: 'Sign In',
                 ),
