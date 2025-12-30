@@ -2,74 +2,94 @@ import 'package:cut_count/widgets/custom_button.dart';
 import 'package:cut_count/widgets/login_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          reverse: true,
-          child: Padding(
-            padding: .symmetric(horizontal: 26),
+        child: Padding(
+          padding: .symmetric(horizontal: 26),
+          child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: .center,
-
               children: [
                 SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+
                 Text(
-                  'Sign In',
+                  'SignIn here',
+                  style: GoogleFonts.poppins(
+                    color: Color(0xffE95401),
+                    fontSize: 26,
+                    fontWeight: .w500,
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+
+                Text(
+                  'Welcome back you\'ve\nbeen missed!',
+                  textAlign: .center,
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                Text(
-                  'Welcome back',
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                Text(
-                  'Sign in with your email and password  \nor continue with social media',
-                  textAlign: .center,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
 
-                SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                 LoginTextfield(
                   isObsure: false,
-                  controller: emailController,
                   hintText: 'Email',
                   prefixIcon: Icon(Icons.mail),
+                  controller: _emailController,
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 LoginTextfield(
                   isObsure: true,
-                  controller: passwordController,
                   hintText: 'Password',
                   prefixIcon: Icon(Icons.lock),
+                  controller: _passwordController,
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.22),
+                const SizedBox(height: 8),
+                GestureDetector(
+                  onTap: () {},
+
+                  child: Align(
+                    alignment: .centerRight,
+                    child: Text(
+                      'Forget password?',
+                      style: GoogleFonts.poppins(
+                        color: Color(0xffE95401),
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.17),
+
                 CustomButton(
-                  onTap: () {
-                    context.pushReplacement('/Home');
-                  },
                   text: 'Sign In',
+                  onTap: () {
+                    context.go('/Home');
+                  },
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                GestureDetector(
+                  onTap: () {
+                    context.go('/SignUp');
+                  },
+                  child: Text('Create new account'),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.09),
+                Text('or continue with'),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                 Row(
                   mainAxisAlignment: .center,
                   children: [
-                    Text(
-                      'Don\'t have an account ? ',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    GestureDetector(
-                      onTap: () => context.pushNamed('/SignUp'),
-                      child: Text('Sign Up', style: TextStyle(fontSize: 15)),
-                    ),
+                    Icon(Icons.golf_course_outlined, size: 50),
+                    Icon(Icons.golf_course_outlined, size: 50),
+                    Icon(Icons.golf_course_outlined, size: 50),
                   ],
                 ),
               ],
