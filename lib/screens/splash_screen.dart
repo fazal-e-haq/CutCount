@@ -2,43 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const .symmetric(horizontal: 26),
+          padding: const EdgeInsets.symmetric(horizontal: 26),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset("assets/images/splash.png"),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+              // Splash Image
+              Image.asset(
+                "assets/images/splash.png",
+                width: size.width * 0.7,
+                fit: BoxFit.contain,
+              ),
+              SizedBox(height: size.height * 0.08),
+
+              // Main Title
               Text(
                 'Organize Barbershop\nWorkflow With Ease.',
-                textAlign: .center,
+                textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
-                  color: Color(0xffE95401),
-                  fontWeight: .w500,
-                  fontSize: 30,
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 28,
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              SizedBox(height: size.height * 0.02),
+
+              // Subtitle / Body
               Text(
-                'Easily track every haircut, monitor daily earnings, and keep accurate records to manage your barbershop’s performance efficiently.',
-                textAlign: .center,
-                style: Theme.of(context).textTheme.bodySmall,
+                'Easily track every haircut, monitor daily earnings, and keep accurate records to manage your barbershop efficiently.',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.17),
+              SizedBox(height: size.height * 0.17),
+
+              // Sign In / Sign Up Buttons
               Row(
-                mainAxisAlignment: .center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // Sign In Button
                   GestureDetector(
                     onTap: () {
                       context.pushReplacement('/SignIn');
@@ -47,25 +57,46 @@ class _SplashScreenState extends State<SplashScreen> {
                       height: 50,
                       width: 140,
                       decoration: BoxDecoration(
-                        color: Color(0xffE95401),
-                        borderRadius: .circular(10),
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: Center(
                         child: Text(
                           'Sign In',
-                          style: Theme.of(context).textTheme.bodyLarge,
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 50),
+                  const SizedBox(width: 30),
+
+                  // Sign Up Button
                   GestureDetector(
                     onTap: () {
                       context.pushReplacement('/SignUp');
                     },
-                    child: Text(
-                      'Sign Up',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                    child: Container(
+                      height: 50,
+                      width: 140,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Sign Up',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],

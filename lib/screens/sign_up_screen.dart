@@ -4,89 +4,119 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignUpScreen extends StatelessWidget {
-  SignUpScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
-  TextEditingController _userNameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _userNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: .symmetric(horizontal: 26),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: size.height * 0.03),
 
-                Text(
-                  'Create Account',
-                  style: GoogleFonts.poppins(
-                    color: Color(0xffE95401),
-                    fontSize: 26,
-                    fontWeight: .w500,
-                  ),
+              // Title
+              Text(
+                'Create Account',
+                style: GoogleFonts.poppins(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 26,
+                  fontWeight: FontWeight.w500,
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              ),
+              SizedBox(height: size.height * 0.02),
 
-                Text(
-                  'Create an account so you can manage your work',
-                  textAlign: .center,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+              // Subtitle
+              Text(
+                'Create an account so you can manage your work efficiently',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              SizedBox(height: size.height * 0.08),
 
-                LoginTextfield(
-                  isObsure: false,
-                  hintText: 'Username',
-                  prefixIcon: Icon(Icons.person),
-                  controller: _userNameController,
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                LoginTextfield(
-                  isObsure: false,
-                  hintText: 'Email',
-                  prefixIcon: Icon(Icons.mail),
-                  controller: _emailController,
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                LoginTextfield(
-                  isObsure: true,
-                  hintText: 'Password',
-                  prefixIcon: Icon(Icons.lock),
-                  controller: _passwordController,
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.12),
+              // Username
+              LoginTextfield(
+                isObsure: false,
+                hintText: 'Username',
+                prefixIcon: const Icon(Icons.person),
+                controller: _userNameController,
+              ),
+              SizedBox(height: size.height * 0.02),
 
-                CustomButton(
-                  text: 'Sign In',
-                  onTap: () {
-                    context.go('/Home');
-                  },
+              // Email
+              LoginTextfield(
+                isObsure: false,
+                hintText: 'Email',
+                prefixIcon: const Icon(Icons.mail),
+                controller: _emailController,
+              ),
+              SizedBox(height: size.height * 0.02),
+
+              // Password
+              LoginTextfield(
+                isObsure: true,
+                hintText: 'Password',
+                prefixIcon: const Icon(Icons.lock),
+                controller: _passwordController,
+              ),
+              SizedBox(height: size.height * 0.06),
+
+              // Sign Up Button
+              CustomButton(
+                text: 'Sign Up',
+                onTap: () {
+                  context.go('/Home');
+                },
+              ),
+              SizedBox(height: size.height * 0.02),
+
+              // Already have account
+              GestureDetector(
+                onTap: () {
+                  context.go('/SignIn');
+                },
+                child: Text(
+                  'Already have an account?',
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                GestureDetector(
-                  onTap: () {
-                    context.go('/SignIn');
-                  },
-                  child: Text('Already have an account'),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.09),
-                Text('or continue with'),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                Row(
-                  mainAxisAlignment: .center,
-                  children: [
-                    Icon(Icons.golf_course_outlined, size: 50),
-                    Icon(Icons.golf_course_outlined, size: 50),
-                    Icon(Icons.golf_course_outlined, size: 50),
-                  ],
-                ),
-              ],
-            ),
+              ),
+              SizedBox(height: size.height * 0.06),
+
+              // Social login
+              Text('or continue with'),
+              SizedBox(height: size.height * 0.02),
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 16,
+                children: const [
+                  Icon(Icons.golf_course_outlined, size: 40),
+                  Icon(Icons.golf_course_outlined, size: 40),
+                  Icon(Icons.golf_course_outlined, size: 40),
+                ],
+              ),
+            ],
           ),
         ),
       ),

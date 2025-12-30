@@ -18,7 +18,7 @@ ThemeData darkTheme = ThemeData(
     ),
     bodyLarge: GoogleFonts.poppins(
       color: Colors.white70,
-      fontSize: 23,
+      fontSize: 22,
       fontWeight: .w600,
     ),
     headlineMedium: GoogleFonts.poppins(

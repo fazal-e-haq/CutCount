@@ -18,7 +18,7 @@ class LoginTextfield extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       cursorColor: Colors.white,
-      style: const TextStyle(color: Colors.grey),
+      style: const TextStyle(color: Colors.grey,fontSize: 13),
       controller: controller,
       obscureText: isObsure,
       decoration: InputDecoration(

@@ -4,96 +4,124 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignInScreen extends StatelessWidget {
-  SignInScreen({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: .symmetric(horizontal: 26),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: size.height * 0.03),
 
-                Text(
-                  'SignIn here',
-                  style: GoogleFonts.poppins(
-                    color: Color(0xffE95401),
-                    fontSize: 26,
-                    fontWeight: .w500,
-                  ),
+              // Title
+              Text(
+                'Sign In Here',
+                style: GoogleFonts.poppins(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontSize: 26,
+                  fontWeight: FontWeight.w500,
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              ),
+              SizedBox(height: size.height * 0.02),
 
-                Text(
-                  'Welcome back you\'ve\nbeen missed!',
-                  textAlign: .center,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+              // Subtitle
+              Text(
+                'Welcome back, you\'ve been missed!',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              SizedBox(height: size.height * 0.08),
 
-                LoginTextfield(
-                  isObsure: false,
-                  hintText: 'Email',
-                  prefixIcon: Icon(Icons.mail),
-                  controller: _emailController,
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                LoginTextfield(
-                  isObsure: true,
-                  hintText: 'Password',
-                  prefixIcon: Icon(Icons.lock),
-                  controller: _passwordController,
-                ),
-                const SizedBox(height: 8),
-                GestureDetector(
-                  onTap: () {},
+              // Email
+              LoginTextfield(
+                isObsure: false,
+                hintText: 'Email',
+                prefixIcon: const Icon(Icons.mail),
+                controller: _emailController,
+              ),
+              SizedBox(height: size.height * 0.02),
 
-                  child: Align(
-                    alignment: .centerRight,
-                    child: Text(
-                      'Forget password?',
-                      style: GoogleFonts.poppins(
-                        color: Color(0xffE95401),
-                        fontSize: 14,
-                      ),
+              // Password
+              LoginTextfield(
+                isObsure: true,
+                hintText: 'Password',
+                prefixIcon: const Icon(Icons.lock),
+                controller: _passwordController,
+              ),
+              const SizedBox(height: 8),
+
+              // Forget password
+              GestureDetector(
+                onTap: () {},
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'Forgot password?',
+                    style: GoogleFonts.poppins(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 14,
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.17),
+              ),
+              SizedBox(height: size.height * 0.06),
 
-                CustomButton(
-                  text: 'Sign In',
-                  onTap: () {
-                    context.go('/Home');
-                  },
+              // Sign In Button
+              CustomButton(
+                text: 'Sign In',
+                onTap: () {
+                  context.go('/Home');
+                },
+              ),
+              SizedBox(height: size.height * 0.02),
+
+              // Create account
+              GestureDetector(
+                onTap: () {
+                  context.go('/SignUp');
+                },
+                child: Text(
+                  'Create new account',
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                GestureDetector(
-                  onTap: () {
-                    context.go('/SignUp');
-                  },
-                  child: Text('Create new account'),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.09),
-                Text('or continue with'),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-                Row(
-                  mainAxisAlignment: .center,
-                  children: [
-                    Icon(Icons.golf_course_outlined, size: 50),
-                    Icon(Icons.golf_course_outlined, size: 50),
-                    Icon(Icons.golf_course_outlined, size: 50),
-                  ],
-                ),
-              ],
-            ),
+              ),
+              SizedBox(height: size.height * 0.06),
+
+              // Social login
+              Text('or continue with'),
+              SizedBox(height: size.height * 0.02),
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 16,
+                children: const [
+                  Icon(Icons.golf_course_outlined, size: 40),
+                  Icon(Icons.golf_course_outlined, size: 40),
+                  Icon(Icons.golf_course_outlined, size: 40),
+                ],
+              ),
+            ],
           ),
         ),
       ),
