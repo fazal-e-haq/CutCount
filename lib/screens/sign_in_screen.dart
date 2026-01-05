@@ -92,7 +92,7 @@ class _SignInScreenState extends State<SignInScreen> {
               CustomButton(
                 text: 'Sign In',
                 onTap: () {
-                  context.go('/Home');
+                  context.go('/BottomBar');
                 },
               ),
               SizedBox(height: size.height * 0.02),

@@ -1,3 +1,4 @@
+import 'package:cut_count/screens/bottom_bar.dart';
 import 'package:cut_count/screens/home_screen.dart';
 import 'package:cut_count/screens/sign_in_screen.dart';
 import 'package:cut_count/screens/sign_up_screen.dart';
@@ -21,9 +22,9 @@ final _router = GoRouter(
       builder: (context, state) =>  SignUpScreen(),
     ),
     GoRoute(
-      name: '/Home',
-      path: '/Home',
-      builder: (context, state) => const HomeScreen(),
+      name: '/BottomBar',
+      path: '/BottomBar',
+      builder: (context, state) =>   BottomBar(),
     ),
   ],
 );
