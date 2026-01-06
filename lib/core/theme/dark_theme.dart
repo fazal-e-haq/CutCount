@@ -13,23 +13,38 @@ ThemeData darkTheme = ThemeData(
     ),
     bodyMedium: GoogleFonts.poppins(
       color: Colors.white54,
-      fontSize: 18,
+      fontSize: 14,
       fontWeight: .w500,
     ),
     bodyLarge: GoogleFonts.poppins(
       color: Colors.white70,
-      fontSize: 22,
+      fontSize: 16,
       fontWeight: .w600,
     ),
+    headlineSmall: GoogleFonts.poppins(
+      color: Colors.grey,
+      fontSize: 18,
+      fontWeight: .w500,
+    ),
+
     headlineMedium: GoogleFonts.poppins(
       color: Colors.grey,
-      fontSize: 20,
+      fontSize: 23,
       fontWeight: .w500,
     ),
     headlineLarge: GoogleFonts.poppins(
       color: Colors.white54,
-      fontSize: 30,
+      fontSize: 26,
       fontWeight: .w600,
+    ),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor:   Colors.white12, // Primary button color
+      foregroundColor: Colors.white, // Text color
+      elevation: 4, // Shadow
+
+      textStyle: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w600),
     ),
   ),
 );

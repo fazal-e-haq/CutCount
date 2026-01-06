@@ -1,11 +1,12 @@
-import 'package:cut_count/screens/account_screen.dart';
-import 'package:cut_count/screens/add_items_screen.dart';
-import 'package:cut_count/screens/history_screen.dart';
-import 'package:cut_count/screens/home_screen.dart';
+import 'package:cut_count/presentation/screens/account_screen.dart';
+import 'package:cut_count/presentation/screens/add_items_screen.dart';
+import 'package:cut_count/presentation/screens/history_screen.dart';
+import 'package:cut_count/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class BottomBar extends StatefulWidget {
-  const BottomBar({super.key});
+  BottomBar({super.key});
 
   @override
   State<BottomBar> createState() => _BottomBarState();
@@ -27,6 +28,8 @@ class _BottomBarState extends State<BottomBar> {
       body: view[index],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
+        selectedFontSize: 16,
+        selectedIconTheme: IconThemeData(size: 32),
         backgroundColor: const Color(0xffE95401),
 
         selectedItemColor: Colors.white,
@@ -40,7 +43,7 @@ class _BottomBarState extends State<BottomBar> {
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Add'),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Added'),
           BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Account'),
         ],

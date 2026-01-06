@@ -1,24 +1,22 @@
-import 'package:cut_count/widgets/custom_button.dart';
-import 'package:cut_count/widgets/login_textfield.dart';
+import 'package:cut_count/presentation/widgets/custom_button.dart';
+import 'package:cut_count/presentation/widgets/login_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  final TextEditingController _userNameController = TextEditingController();
+class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _userNameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -39,31 +37,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
               // Title
               Text(
-                'Create Account',
-                style: GoogleFonts.poppins(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 26,
-                  fontWeight: FontWeight.w500,
-                ),
+                'Sign In Here',
+                style: Theme.of(context).textTheme.headlineLarge,
               ),
               SizedBox(height: size.height * 0.02),
 
               // Subtitle
               Text(
-                'Create an account so you can manage your work efficiently',
+                'Welcome back,\nyou\'ve been missed!',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               SizedBox(height: size.height * 0.08),
-
-              // Username
-              LoginTextfield(
-                isObsure: false,
-                hintText: 'Username',
-                prefixIcon: const Icon(Icons.person),
-                controller: _userNameController,
-              ),
-              SizedBox(height: size.height * 0.02),
 
               // Email
               LoginTextfield(
@@ -81,24 +66,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 prefixIcon: const Icon(Icons.lock),
                 controller: _passwordController,
               ),
+              const SizedBox(height: 8),
+
+              // Forget password
+              GestureDetector(
+                onTap: () {},
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'Forgot password?',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+              ),
               SizedBox(height: size.height * 0.06),
 
-              // Sign Up Button
+              // Sign In Button
               CustomButton(
-                text: 'Sign Up',
+                text: 'Sign In',
                 onTap: () {
-                  context.go('/Home');
+                  context.go('/BottomBar');
                 },
               ),
               SizedBox(height: size.height * 0.02),
 
-              // Already have account
+              // Create account
               GestureDetector(
                 onTap: () {
-                  context.go('/SignIn');
+                  context.go('/SignUp');
                 },
                 child: Text(
-                  'Already have an account?',
+                  'Create new account',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),

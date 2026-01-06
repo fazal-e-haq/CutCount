@@ -1,9 +1,12 @@
-import 'package:cut_count/screens/bottom_bar.dart';
-import 'package:cut_count/screens/home_screen.dart';
-import 'package:cut_count/screens/sign_in_screen.dart';
-import 'package:cut_count/screens/sign_up_screen.dart';
-import 'package:cut_count/screens/splash_screen.dart';
+
+
+
 import 'package:go_router/go_router.dart';
+
+import '../presentation/screens/bottom_bar.dart';
+import '../presentation/screens/sign_in_screen.dart';
+import '../presentation/screens/sign_up_screen.dart';
+import '../presentation/screens/splash_screen.dart';
 
 GoRouter get router => _router;
 final _router = GoRouter(
