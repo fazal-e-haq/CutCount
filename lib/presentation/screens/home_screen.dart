@@ -4,143 +4,167 @@ import 'package:google_fonts/google_fonts.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
+  // Sample services data
+  final List<Map<String, dynamic>> services = List.generate(
+    11,
+    (index) => {
+      'name': 'Hair Cutting',
+      'price': 'Rs 150',
+      'image': 'assets/images/BeardCutting.jpeg',
+    },
+  );
+
+  // Current timestamp
+  final DateTime now = DateTime.now();
+  String two(int n) => n.toString().padLeft(2, '0');
+  late final String formatted =
+      '${two(DateTime.now().day)}-${two(DateTime.now().month)}-${DateTime.now().year} '
+      'at ${two(DateTime.now().hour)}:${two(DateTime.now().minute)}:${two(DateTime.now().second)}';
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     return SafeArea(
       child: SingleChildScrollView(
-        child: Padding(
-          padding: const .symmetric(horizontal: 16),
-          child: Column(
-            mainAxisAlignment: .center,
-            crossAxisAlignment: .start,
-            children: [
-              SizedBox(height: size.height * 0.05),
-              Container(
-                height: size.height * 0.2,
-                width: size.width,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [ Colors.black12,Colors.white24],
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: size.height * 0.02),
+
+            // Top greeting container
+            Container(
+              height: size.height * 0.22,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Colors.black12, Colors.white24],
+                ),
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0xffE95401),
+                    blurRadius: 4,
+                    offset: Offset(0, 3),
                   ),
-                  borderRadius: .circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xffE95401),
-                      blurRadius: 2,
-                      blurStyle: .outer,
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Hi,\n',
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.headlineLarge,
+                              ),
+                              TextSpan(
+                                text: 'FAZAL',
+                                style: GoogleFonts.aclonica(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w900,
+                                  color: const Color(0xffE95401),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text(
+                          'Added: 10\nTotal: 1500',
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                      ],
+                    ),
+                    CircleAvatar(
+                      radius: size.width * 0.12,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: const AssetImage(
+                        'assets/images/pic.png',
+                      ),
                     ),
                   ],
                 ),
-                child: Padding(
-                  padding: const .all(18.0),
-                  child: Row(
-                    mainAxisAlignment: .spaceBetween,
-                    children: [
-                      Column(
-                        mainAxisAlignment: .spaceBetween,
-                        crossAxisAlignment: .start,
+              ),
+            ),
+
+            SizedBox(height: size.height * 0.03),
+
+            // Services title
+            Text('Services', style: Theme.of(context).textTheme.headlineMedium),
+            SizedBox(height: size.height * 0.02),
+
+            // Services list using ListView.builder
+            ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: services.length,
+              itemBuilder: (context, index) {
+                final service = services[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Card(
+                    elevation: 6,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    color: const Color(0xffE95401).withAlpha(120),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Hi,\n',
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.headlineLarge,
-                                ),
-                                TextSpan(
-                                  text: 'FAZAL',
-                                  style: GoogleFonts.aclonica(
-                                    fontSize: 30,
-                                    fontWeight: .w900,
-                                    color: Color(0xffE95401),
-                                  ),
-                                ),
-                              ],
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.asset(
+                                service['image'],
+                                height: size.height * 0.18,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-
+                          const SizedBox(height: 10),
                           Text(
-                            'A d d e d   :   10\nT o t a l   :   1500',
+                            service['name'],
                             style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          Text(
+                            service['price'],
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          const SizedBox(height: 10),
+                          ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xffE95401),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            child: const Text('ADD'),
                           ),
                         ],
                       ),
-                      CircleAvatar(
-                        radius: 80,
-                        backgroundColor: Colors.transparent,
-                        backgroundImage: AssetImage('assets/images/pic.png'),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(height: size.height * 0.05),
-              Text(
-                'Services',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              SizedBox(height: size.height * 0.02),
-              _servicesCard(context),
-              _servicesCard(context),
-              _servicesCard(context),
-              _servicesCard(context),
-              _servicesCard(context),
-              _servicesCard(context),
-              _servicesCard(context),
-              _servicesCard(context),
-              _servicesCard(context),
-              _servicesCard(context),
-              _servicesCard(context),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-
-
-  Widget _servicesCard(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return SizedBox(
-      child: Card(
-        shadowColor: Colors.black,
-
-        elevation: 10,
-        color: Color(0xffE95401).withAlpha(120),
-        shape: RoundedRectangleBorder(borderRadius: .circular(20)),
-        child: Padding(
-          padding: const .symmetric(horizontal: 10, vertical: 10),
-          child: Expanded(
-            child: Column(
-              crossAxisAlignment: .stretch,
-              mainAxisAlignment: .center,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: .circular(20),
-                  ),
-                  child: Image.asset(
-                    'assets/images/BeardCutting.jpeg',
-                    height: 150,
-                  ),
-                ),
-
-                Text(
-                  'Hair cutting',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                Text('Rs 150', style: Theme.of(context).textTheme.bodyLarge),
-                ElevatedButton(onPressed: () {}, child: Text('A D D')),
-              ],
+                );
+              },
             ),
-          ),
+          ],
         ),
       ),
     );
