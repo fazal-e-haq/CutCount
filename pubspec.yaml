@@ -40,6 +40,7 @@ dependencies:
   go_router: ^17.0.1
   curved_navigation_bar: ^1.0.6
   riverpod: ^3.1.0
+  flutter_riverpod: ^3.1.0
 
 
 

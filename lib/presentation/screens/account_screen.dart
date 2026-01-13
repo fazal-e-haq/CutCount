@@ -12,8 +12,7 @@ class AccountScreen extends StatelessWidget {
         elevation: 0,
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
-        title:  Text(
-
+        title: Text(
           'Profile',
           style: Theme.of(context).textTheme.headlineMedium,
         ),
@@ -26,22 +25,25 @@ class AccountScreen extends StatelessWidget {
               mainAxisAlignment: .start,
 
               children: [
-
                 SizedBox(height: size.height * 0.03),
                 CircleAvatar(
                   backgroundImage: AssetImage('assets/images/splash.png'),
-                   radius: 60,
+                  radius: 60,
                 ),
                 SizedBox(height: size.height * 0.02),
                 Text('N a m e', style: Theme.of(context).textTheme.bodyLarge),
                 SizedBox(height: size.height * 0.01),
                 Text('Email', style: Theme.of(context).textTheme.bodyMedium),
                 SizedBox(height: size.height * 0.05),
-                profileList(context, 'Create Services', Icons.miscellaneous_services, () {}),
+                profileList(
+                  context,
+                  'Create Services',
+                  Icons.miscellaneous_services,
+                  () {},
+                ),
+                profileList(context, 'Privacy Policy', Icons.policy, () {}),
                 profileList(context, 'Settings', Icons.settings, () {}),
-                profileList(context, 'Privacy Policy', Icons.settings, () {}),
-                profileList(context, 'Settings', Icons.settings, () {}),
-                profileList(context, 'Log out', Icons.settings, () {}),
+                profileList(context, 'Log out', Icons.logout, () {}),
               ],
             ),
           ),
