@@ -1,6 +1,5 @@
-
-
-
+import 'package:cut_count/presentation/screens/create_services_screen.dart';
+import 'package:cut_count/presentation/screens/setting_screen.dart';
 import 'package:go_router/go_router.dart';
 
 import '../presentation/screens/bottom_bar.dart';
@@ -22,12 +21,22 @@ final _router = GoRouter(
     GoRoute(
       name: '/SignUp',
       path: '/SignUp',
-      builder: (context, state) =>  SignUpScreen(),
+      builder: (context, state) => SignUpScreen(),
     ),
     GoRoute(
       name: '/BottomBar',
       path: '/BottomBar',
-      builder: (context, state) =>   BottomBar(),
+      builder: (context, state) => BottomBar(),
+    ),
+    GoRoute(
+      name: '/Setting',
+      path: '/Setting',
+      builder: (context, state) => SettingScreen(),
+    ),
+    GoRoute(
+      name: '/CreateService',
+      path: '/CreateService',
+      builder: (context, state) => CreateServicesScreen(),
     ),
   ],
 );
