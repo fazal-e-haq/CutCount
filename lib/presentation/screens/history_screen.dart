@@ -3,16 +3,21 @@ import 'package:flutter/material.dart';
 class HistoryScreen extends StatelessWidget {
   HistoryScreen({super.key});
 
-  // Current timestamp formatted
-  final DateTime now = DateTime.now();
-  String two(int n) => n.toString().padLeft(2, '0');
-
-  late final String formatted =
-      '${two(DateTime.now().day)}-${two(DateTime.now().month)}-${DateTime.now().year} '
-      'at ${two(DateTime.now().hour)}:${two(DateTime.now().minute)}:${two(DateTime.now().second)}';
-
-  // Sample data
-  final List newServices = List.generate(24, (index) => index + 1);
+  List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  late String monthFull = months[DateTime.now().month - 1];
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +31,7 @@ class HistoryScreen extends StatelessWidget {
         elevation: 0,
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
-        title:  Text(
-
+        title: Text(
           'History',
           style: Theme.of(context).textTheme.headlineMedium,
         ),
@@ -38,7 +42,6 @@ class HistoryScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: .start,
             children: [
-
               SizedBox(height: size.height * 0.02),
               historyLists(context),
             ],
@@ -51,7 +54,7 @@ class HistoryScreen extends StatelessWidget {
   Widget historyLists(BuildContext context) {
     return Expanded(
       child: ListView.builder(
-        itemCount: newServices.length,
+        itemCount: 50,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
@@ -62,10 +65,23 @@ class HistoryScreen extends StatelessWidget {
               ),
               child: ListTile(
                 title: Text(
-                  'Service ${newServices[index]}',
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  '$monthFull',
+                  textAlign: .center,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                subtitle: Text(formatted),
+                subtitle: Column(
+                  crossAxisAlignment: .start,
+                  children: [
+                    Text(
+                      'Total Cutting : 10',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    Text(
+                      'Total earing : 1000',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
                 contentPadding: const EdgeInsets.all(12),
                 horizontalTitleGap: 20,
                 shape: RoundedRectangleBorder(

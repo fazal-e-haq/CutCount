@@ -5,14 +5,18 @@ import 'package:go_router/go_router.dart';
 import '../presentation/screens/bottom_bar.dart';
 import '../presentation/screens/sign_in_screen.dart';
 import '../presentation/screens/sign_up_screen.dart';
-import '../presentation/screens/splash_screen.dart';
+import '../presentation/screens/intro_screen.dart';
 
 GoRouter get router => _router;
 final _router = GoRouter(
-  initialLocation: '/', // Where the app starts
-  routes: [
-    GoRoute(path: '/', builder: (context, state) => const SplashScreen()),
+  initialLocation: '/SplashScreen',
 
+  routes: [
+    GoRoute(
+      name: '/SplashScreen',
+      path: '/SplashScreen',
+      builder: (context, state) => const IntroScreen(),
+    ),
     GoRoute(
       name: '/SignIn',
       path: '/SignIn',
