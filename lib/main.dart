@@ -1,24 +1,38 @@
+import 'package:cut_count/Providers/onboarding_provider.dart';
+import 'package:cut_count/Providers/theme_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'core/theme/dark_theme.dart';
-import 'firebase_options.dart';
+import 'core/theme/light_theme.dart';
 import 'package:cut_count/routes/app_route.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(CutCountApp());
+  final prefs = await SharedPreferences.getInstance();
+  final isSeen = prefs.getBool("seen_onboarding") ?? false;
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => OnboardingProvider()),
+      ],
+      child: CutCountApp(isSeen: isSeen),
+    ),
+  );
 }
 
 class CutCountApp extends StatelessWidget {
-  const CutCountApp({super.key});
-
+  const CutCountApp({super.key, required this.isSeen});
+  final bool isSeen;
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      theme: darkTheme,
-      routerConfig: router,
+      themeMode: context.watch<ThemeProvider>().isdark ? .dark : .light,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      routerConfig: router(isSeen),
     );
   }
 }

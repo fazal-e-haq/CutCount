@@ -1,100 +1,162 @@
+import 'package:cut_count/Providers/onboarding_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-class IntroScreen extends StatelessWidget {
-  const IntroScreen({super.key});
+class OnboardScreen extends StatelessWidget {
+  const OnboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // Intro pages details
+    final onboardProvider = context.watch<OnboardingProvider>();
+    final int currentIndex = onboardProvider.currentIndex;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 26),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10),
+          child: Stack(
             children: [
-              // Splash Image
-              Image.asset(
-                "assets/images/pic.png",
-                width: size.width * 0.9,
-                fit: BoxFit.contain,
-              ),
-              SizedBox(height: size.height * 0.08),
-
-              // Main Title
-              Text(
-                'Organize Barbershop\nWorkflow With Ease.',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-              SizedBox(height: size.height * 0.02),
-
-              // Subtitle / Body
-              Text(
-                'Easily track every haircut, monitor daily earnings, and keep accurate records to manage your barbershop efficiently.',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              SizedBox(height: size.height * 0.17),
-
-              // Sign In / Sign Up Buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Sign In Button
-                  GestureDetector(
-                    onTap: () {
-                      context.pushReplacement('/SignIn');
-                    },
-                    child: Container(
-                      height: 50,
-                      width: 140,
-                      decoration: BoxDecoration(
-                        color: .new(0XFFE95401),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Sign In',
-                          style: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 30),
-
-                  // Sign Up Button
-                  GestureDetector(
-                    onTap: () {
-                      context.pushReplacement('/SignUp');
-                    },
-                    child: Container(
-                      height: 50,
-                      width: 140,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: .new(0xffE95401), width: 2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Sign Up',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              PageView.builder(
+                controller: onboardProvider.pageController,
+                scrollDirection: Axis.horizontal,
+                physics: const ClampingScrollPhysics(),
+                onPageChanged: (value) {
+                  context.read<OnboardingProvider>().onChange(value);
+                },
+                itemCount: onboardProvider.introInfo.length,
+                itemBuilder: (context, index) {
+                  final item = onboardProvider.introInfo[index];
+                  return IntroInformation(
+                    imagePath: item.imagePath,
+                    mainTitle: item.mainTitle,
+                    subTitle: item.subTitle,
+                  );
+                },
               ),
             ],
           ),
         ),
       ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Animated indicators of pages
+            Selector<OnboardingProvider, int>(
+              selector: (contextOfProvider, provider) => provider.currentIndex,
+              builder: (contextOfProvider, currentIndex, child) {
+                return Row(
+                  children: List.generate(
+                    contextOfProvider
+                        .read<OnboardingProvider>()
+                        .introInfo
+                        .length,
+                    (index) {
+                      final isActive = index == currentIndex;
+                      return AnimatedContainer(
+                        height: 15,
+                        width: isActive ? 40 : 20,
+                        margin: const EdgeInsetsGeometry.symmetric(
+                          horizontal: 3,
+                        ),
+                        duration: const Duration(milliseconds: 700),
+                        decoration: BoxDecoration(
+                          color: isActive ? Color(0xffE95401) : Colors.white,
+                          borderRadius: BorderRadius.circular(100),
+                          border: Border.all(
+                            color: isActive
+                                ? Colors.transparent
+                                : Color(0xffE95401),
+                            width: 2,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+            // Button for go to next page
+            FloatingActionButton(
+              onPressed: () async {
+                if (currentIndex == onboardProvider.introInfo.length - 1) {
+                  onboardProvider.setOnboardingSeen();
+                  context.push('/BottomBar');
+                } else {
+                  onboardProvider.pageController.nextPage(
+                    duration: const Duration(milliseconds: 700),
+                    curve: Curves.easeOut,
+                  );
+                }
+              },
+              child: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// A class for show information on onboarding pages which include Text and image
+class IntroInformation extends StatelessWidget {
+  // Constructor
+  const IntroInformation({
+    super.key,
+    required this.imagePath,
+    required this.mainTitle,
+    required this.subTitle,
+  });
+  // Global variables
+  final String imagePath;
+  final String mainTitle;
+  final String subTitle;
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Onboard Image
+        Image.asset(
+          imagePath,
+          width: size.width * 0.9,
+          height: size.height * 0.35,
+          fit: BoxFit.contain,
+        ),
+        SizedBox(height: size.height * 0.13),
+
+        // Main Title
+        Text(
+          mainTitle,
+          textAlign: TextAlign.start,
+          style: const TextStyle(
+            fontFamily: 'Unbounded',
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+            color: Color(0xffE95401),
+          ),
+        ),
+        SizedBox(height: size.height * 0.025),
+        // Subtitle / Body
+        Text(
+          subTitle,
+          textAlign: TextAlign.start,
+          style: const TextStyle(
+            fontFamily: 'Unbounded',
+            fontSize: 16,
+            fontWeight: .w500,
+            color: Colors.black87,
+          ),
+        ),
+      ],
     );
   }
 }

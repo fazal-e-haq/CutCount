@@ -1,25 +1,10 @@
+import 'package:cut_count/presentation/widgets/cards_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  // Sample services data
-  final List<Map<String, dynamic>> services = List.generate(
-    11,
-    (index) => {
-      'name': 'Hair Cutting',
-      'price': 'Rs 150',
-      'image': 'assets/images/BeardCutting.jpeg',
-    },
-  );
-
-  // Current timestamp
-  final DateTime now = DateTime.now();
-  String two(int n) => n.toString().padLeft(2, '0');
-  late final String formatted =
-      '${two(DateTime.now().day)}-${two(DateTime.now().month)}-${DateTime.now().year} '
-      'at ${two(DateTime.now().hour)}:${two(DateTime.now().minute)}:${two(DateTime.now().second)}';
+  List da = [1, 'Adas', 2, 3, 4, 5, 4, 3, 2, 21, 2, 2];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +14,7 @@ class HomeScreen extends StatelessWidget {
       extendBody: true,
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
         scrolledUnderElevation: 0,
         surfaceTintColor: Colors.transparent,
@@ -40,151 +25,118 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: size.height * 0.02),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              crossAxisAlignment: .start,
+              children: [
+                // Top greeting container
+                MainBoards(),
+                SizedBox(height: size.height * 0.02),
+                // Services title
+                Text(
+                  'Services',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                Wrap(
+                  runSpacing: 5,
+                  spacing: 8,
+                  direction: .horizontal,
+                  crossAxisAlignment: .center,
+                  children: List.generate(da.length, (index) {
+                    return CardsWidget(
+                      height: size.height * 0.2,
+                      width: size.width * 0.445,
 
-              // Top greeting container
-              greetintCard(context),
+                      color: Colors.red,
+                      child: Text('data'),
+                    );
+                  }),
+                ),
+                // List of services
 
-              SizedBox(height: size.height * 0.03),
-
-              // Services title
-              Text(
-                'Services',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              SizedBox(height: size.height * 0.02),
-
-              // Services list using ListView.builder
-              listOfServices(context),
-            ],
+                // Services list using ListView.builder
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+}
 
-  // This is card for greeting and shareing total cutting and earning in a day.
-  Widget greetintCard(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Container(
-      height: size.height * 0.22,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Colors.black12, Color(0xffE95401)],
+class MainBoards extends StatelessWidget {
+  const MainBoards({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+
+      children: [
+        //
+        CardsWidget(
+          height: size.height * 0.2,
+          width: size.width * 0.43,
+          color: Color(0xFFFFF9F3),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.add, size: 30),
+              Text('Add cut', style: Theme.of(context).textTheme.bodyLarge),
+            ],
+          ),
         ),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        SizedBox(width: 10),
+        //
+        Column(
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Hi,\n',
-                        style: Theme.of(context).textTheme.headlineLarge,
-                      ),
-                      TextSpan(
-                        text: 'FAZAL',
-                        style: GoogleFonts.aclonica(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w900,
-                          color: const Color(0xffE95401),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Text(
-                  'Added: 10\nTotal: 1500',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-              ],
-            ),
-            CircleAvatar(
-              radius: size.width * 0.12,
-              backgroundColor: Colors.transparent,
-              backgroundImage: const AssetImage('assets/images/pic.png'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // This list of services provide all services in a list so user can add which service he give for customer and add  it to earning list
-  Widget listOfServices(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return ListView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: services.length,
-      itemBuilder: (context, index) {
-        final service = services[index];
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Card(
-            elevation: 6,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            color: const Color(0xffE95401).withAlpha(120),
-            child: Padding(
-              padding: const EdgeInsets.all(12),
+            CardsWidget(
+              height: size.height * 0.095,
+              width: size.width * 0.43,
+              color: Color(0xFFFFF4EA),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(
-                        service['image'],
-                        height: size.height * 0.18,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
                   Text(
-                    service['name'],
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    '50',
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontFamily: 'Unbounded',
+                    ),
                   ),
                   Text(
-                    service['price'],
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xffE95401),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Text('ADD'),
+                    'Total Cutts',
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
               ),
             ),
-          ),
-        );
-      },
+
+            SizedBox(height: 5),
+            CardsWidget(
+              height: size.height * 0.095,
+              width: size.width * 0.43,
+              color: Color(0xFFFFF4EA),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '50',
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontFamily: 'Unbounded',
+                    ),
+                  ),
+                  Text(
+                    'Total amount',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

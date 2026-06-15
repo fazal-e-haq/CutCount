@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -42,7 +43,9 @@ class AccountScreen extends StatelessWidget {
                   () {},
                 ),
                 profileList(context, 'Privacy Policy', Icons.policy, () {}),
-                profileList(context, 'Settings', Icons.settings, () {}),
+                profileList(context, 'Settings', Icons.settings, () {
+                  context.push('/Setting');
+                }),
                 profileList(context, 'Log out', Icons.logout, () {}),
               ],
             ),

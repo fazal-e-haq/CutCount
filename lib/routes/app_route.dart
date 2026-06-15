@@ -2,36 +2,31 @@ import 'package:cut_count/presentation/screens/create_services_screen.dart';
 import 'package:cut_count/presentation/screens/setting_screen.dart';
 import 'package:go_router/go_router.dart';
 
+import '../Providers/onboarding_provider.dart';
 import '../presentation/screens/bottom_bar.dart';
-import '../presentation/screens/sign_in_screen.dart';
-import '../presentation/screens/sign_up_screen.dart';
+
 import '../presentation/screens/intro_screen.dart';
 
-GoRouter get router => _router;
-final _router = GoRouter(
-  initialLocation: '/SplashScreen',
+GoRouter router(bool isSeen) => GoRouter(
+  initialLocation: isSeen ? '/BottomBar' : '/BottomBar',
 
   routes: [
     GoRoute(
-      name: '/SplashScreen',
-      path: '/SplashScreen',
-      builder: (context, state) => const IntroScreen(),
+      name: '/Onboard',
+      path: '/Onboard',
+      builder: (context, state) => OnboardScreen(),
     ),
-    GoRoute(
-      name: '/SignIn',
-      path: '/SignIn',
-      builder: (context, state) => SignInScreen(),
-    ),
-    GoRoute(
-      name: '/SignUp',
-      path: '/SignUp',
-      builder: (context, state) => SignUpScreen(),
-    ),
+
     GoRoute(
       name: '/BottomBar',
       path: '/BottomBar',
       builder: (context, state) => BottomBar(),
     ),
+    // GoRoute(
+    //   name: '/Home',
+    //   path: '/Home',
+    //   builder: (context, state) => BottomBar(),
+    // ),
     GoRoute(
       name: '/Setting',
       path: '/Setting',
