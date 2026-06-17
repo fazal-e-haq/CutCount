@@ -1,14 +1,11 @@
-import 'package:cut_count/presentation/screens/create_services_screen.dart';
-import 'package:cut_count/presentation/screens/setting_screen.dart';
 import 'package:go_router/go_router.dart';
 
-import '../Providers/onboarding_provider.dart';
-import '../presentation/screens/bottom_bar.dart';
-
-import '../presentation/screens/intro_screen.dart';
+import '../features/bottom_nav_bar/screens/bottom_bar.dart';
+import '../features/onboard/screens/onboarding_screen.dart';
+import '../features/settings/screens/setting_screen.dart';
 
 GoRouter router(bool isSeen) => GoRouter(
-  initialLocation: isSeen ? '/BottomBar' : '/BottomBar',
+  initialLocation: isSeen ? '/BottomBar' : '/Onboard',
 
   routes: [
     GoRoute(
@@ -31,11 +28,6 @@ GoRouter router(bool isSeen) => GoRouter(
       name: '/Setting',
       path: '/Setting',
       builder: (context, state) => SettingScreen(),
-    ),
-    GoRoute(
-      name: '/CreateService',
-      path: '/CreateService',
-      builder: (context, state) => CreateServicesScreen(),
     ),
   ],
 );

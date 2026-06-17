@@ -1,7 +1,9 @@
-import 'package:cut_count/Providers/onboarding_provider.dart';
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/onboarding_provider.dart';
+import '../widgets/onboard_info.dart';
 
 class OnboardScreen extends StatelessWidget {
   const OnboardScreen({super.key});
@@ -103,60 +105,3 @@ class OnboardScreen extends StatelessWidget {
   }
 }
 
-// A class for show information on onboarding pages which include Text and image
-class IntroInformation extends StatelessWidget {
-  // Constructor
-  const IntroInformation({
-    super.key,
-    required this.imagePath,
-    required this.mainTitle,
-    required this.subTitle,
-  });
-  // Global variables
-  final String imagePath;
-  final String mainTitle;
-  final String subTitle;
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Onboard Image
-        Image.asset(
-          imagePath,
-          width: size.width * 0.9,
-          height: size.height * 0.35,
-          fit: BoxFit.contain,
-        ),
-        SizedBox(height: size.height * 0.13),
-
-        // Main Title
-        Text(
-          mainTitle,
-          textAlign: TextAlign.start,
-          style: const TextStyle(
-            fontFamily: 'Unbounded',
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-            color: Color(0xffE95401),
-          ),
-        ),
-        SizedBox(height: size.height * 0.025),
-        // Subtitle / Body
-        Text(
-          subTitle,
-          textAlign: TextAlign.start,
-          style: const TextStyle(
-            fontFamily: 'Unbounded',
-            fontSize: 16,
-            fontWeight: .w500,
-            color: Colors.black87,
-          ),
-        ),
-      ],
-    );
-  }
-}

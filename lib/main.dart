@@ -1,11 +1,12 @@
-import 'package:cut_count/Providers/onboarding_provider.dart';
-import 'package:cut_count/Providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/theme/dark_theme.dart';
 import 'core/theme/light_theme.dart';
 import 'package:cut_count/routes/app_route.dart';
+
+import 'features/onboard/providers/onboarding_provider.dart';
+import 'features/settings/providers/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

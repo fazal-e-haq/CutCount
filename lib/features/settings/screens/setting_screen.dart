@@ -1,6 +1,7 @@
-import 'package:cut_count/Providers/theme_provider.dart';
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/theme_provider.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});

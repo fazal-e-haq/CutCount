@@ -1,8 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:cut_count/presentation/screens/account_screen.dart';
-import 'package:cut_count/presentation/screens/add_items_screen.dart';
-import 'package:cut_count/presentation/screens/history_screen.dart';
-import 'package:cut_count/presentation/screens/home_screen.dart';
+
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatefulWidget {
@@ -16,10 +13,10 @@ class _BottomBarState extends State<BottomBar> {
   int index = 0;
 
   final List<Widget> view = [
-    HomeScreen(),
-    AddItemsScreen(),
-    HistoryScreen(),
-    AccountScreen(),
+    // HomeScreen(),
+    // AddItemsScreen(),
+    // HistoryScreen(),
+    // AccountScreen(),
   ];
 
   @override

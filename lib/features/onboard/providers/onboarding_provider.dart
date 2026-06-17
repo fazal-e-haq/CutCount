@@ -1,6 +1,7 @@
-import 'package:cut_count/Models/onboard_model.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../data/models/onboard_model.dart';
 
 class OnboardingProvider with ChangeNotifier {
   int currentIndex = 0;
@@ -10,24 +11,23 @@ class OnboardingProvider with ChangeNotifier {
   final List<OnboardData> introInfo = [
     OnboardData(
       imagePath: 'assets/images/splash.png',
-      mainTitle: 'Barber Shop\nManager.',
+      mainTitle: 'Barbershop Operations\nManagement',
       subTitle:
-          'Manage your entire barbershop operations, customers, and services in one simple offline system daily.',
+      'Centralize shop activities including services, records, and daily workflow in a structured offline system.',
     ),
     OnboardData(
-      imagePath: 'assets/images/HairCutting.jpeg',
-      mainTitle: 'Instant Haircut\nLogging.',
+      imagePath: 'assets/images/haircut_logging.png',
+      mainTitle: 'Fast Service\nRecording',
       subTitle:
-          'Quickly record each haircut and service price without delays or internet connection required.',
+      'Log haircut services and pricing instantly with a streamlined interface optimized for daily use.',
     ),
     OnboardData(
-      imagePath: 'assets/images/pic.png',
-      mainTitle: 'Daily Earnings\nTracker.',
+      imagePath: 'assets/images/earnings_tracker.png',
+      mainTitle: 'Revenue & Performance\nTracking',
       subTitle:
-          'Automatically calculate total daily income and monitor your business performance anytime completely offline and secure.',
+      'Monitor daily earnings and shop performance with automated summaries and historical insights.',
     ),
   ];
-
   Future<void> setOnboardingSeen() async {
     final pref = await SharedPreferences.getInstance();
     pref.setBool(_keySeenOnboard, true);

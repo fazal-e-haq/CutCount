@@ -78,7 +78,7 @@ ThemeData lightTheme = ThemeData.light().copyWith(
       overflow: TextOverflow.visible,
     ),
     headlineLarge: const TextStyle(
-      fontSize: 30,
+      fontSize: 26,
       fontFamily: 'Unbounded',
       fontWeight: FontWeight.w700,
       fontStyle: FontStyle.normal,
