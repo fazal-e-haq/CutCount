@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Native splash for LIGHT mode on Android 5.0+ (API 21+).
+    Identical layout to the base drawable — solid orange + centered logo.
+-->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Solid brand orange background -->
     <item>
-        <bitmap android:gravity="fill" android:src="@drawable/background"/>
+        <shape android:shape="rectangle">
+            <solid android:color="#E95401"/>
+        </shape>
     </item>
+
+    <!-- Centered app logo -->
     <item>
-        <bitmap android:gravity="center" android:src="@drawable/splash"/>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/ic_launcher_foreground"/>
     </item>
+
 </layer-list>

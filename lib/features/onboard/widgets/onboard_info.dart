@@ -5,12 +5,12 @@ class IntroInformation extends StatelessWidget {
   // Constructor
   const IntroInformation({
     super.key,
-    required this.imagePath,
+    // required this.imagePath,
     required this.mainTitle,
     required this.subTitle,
   });
   // Global variables
-  final String imagePath;
+  // final String imagePath;
   final String mainTitle;
   final String subTitle;
   @override
@@ -19,33 +19,40 @@ class IntroInformation extends StatelessWidget {
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: size.height * 0.03),
-
-        // Onboard Image
-        Image.asset(
-          imagePath,
-          width: size.width * 0.9,
-          height: size.height * 0.35,
-          fit: BoxFit.contain,
+        const SizedBox(height: 20),
+        Center(
+          child: Icon(
+            Icons.phone_iphone,
+            size: 300,
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
-        SizedBox(height: size.height * 0.15),
+        // Onboard Image
+        // Image.asset(
+        //   imagePath,
+        //   width: size.width * 0.9,
+        //   height: size.height * 0.35,
+        //   fit: BoxFit.contain,
+        // ),
+        const Spacer(),
 
         // Main Title
         Text(
           mainTitle,
-          textAlign: TextAlign.start,
-          style: Theme.of(
-            context,
-          ).textTheme.headlineMedium?.copyWith(color: Color(0xffE95401)),
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontSize: 20,
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
         SizedBox(height: size.height * 0.02),
         // Subtitle / Body
         Text(
           subTitle,
-          textAlign: TextAlign.start,
-          style: Theme.of(context).textTheme.bodyLarge,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],
     );

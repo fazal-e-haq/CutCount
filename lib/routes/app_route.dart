@@ -19,11 +19,7 @@ GoRouter router(bool isSeen) => GoRouter(
       path: '/BottomBar',
       builder: (context, state) => BottomBar(),
     ),
-    // GoRoute(
-    //   name: '/Home',
-    //   path: '/Home',
-    //   builder: (context, state) => BottomBar(),
-    // ),
+
     GoRoute(
       name: '/Setting',
       path: '/Setting',
