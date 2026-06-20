@@ -9,15 +9,15 @@ ThemeData lightTheme = ThemeData(
 
   // Define the core color scheme for the light theme
   colorScheme: const ColorScheme.light(
-    primary: Color(0xffE95401),        // Main accent/orange color
+    primary: Color(0xffE95401), // Main accent/orange color
     onPrimary: Colors.white,
-    secondary: Color(0xFF8C4F2B),      // Warm earthy terracotta brown
+    secondary: Color(0xFF8C4F2B), // Warm earthy terracotta brown
     onSecondary: Colors.white,
-    surface: Color(0xFFFDFBF7),        // Card and container background
-    onSurface: Color(0xFF2B2722),      // Primary text color
-    error: Color(0xFFBA1A1A),          // Standard error red
+    surface: Color(0xFFFDFBF7), // Card and container background
+    onSurface: Color(0xFF2B2722), // Primary text color
+    error: Color(0xFFBA1A1A), // Standard error red
     onError: Colors.white,
-    outline: Color(0xFF857364),        // Borders and dividers
+    outline: Color(0xFF857364), // Borders and dividers
   ),
 
   // Typography / TextTheme matching the local fonts: Inter, Poppins, Unbounded
@@ -121,9 +121,7 @@ ThemeData lightTheme = ThemeData(
       foregroundColor: Colors.white,
       elevation: 2,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       textStyle: const TextStyle(
         fontFamily: 'Inter',
         fontSize: 16,
@@ -138,9 +136,7 @@ ThemeData lightTheme = ThemeData(
       foregroundColor: const Color(0xffE95401),
       side: const BorderSide(color: Color(0xffE95401), width: 1.5),
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       textStyle: const TextStyle(
         fontFamily: 'Inter',
         fontSize: 16,
@@ -230,5 +226,10 @@ ThemeData lightTheme = ThemeData(
       return const Color(0xFFEBE2D5);
     }),
   ),
-);
 
+  listTileTheme: ListTileThemeData(
+    contentPadding: EdgeInsets.all(10),
+    tileColor: Colors.red,
+    minTileHeight: 40,
+  ),
+);

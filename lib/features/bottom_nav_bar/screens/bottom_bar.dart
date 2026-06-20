@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:cut_count/features/history/screens/history_screen.dart';
-
 import 'package:cut_count/features/services/screens/services_screen.dart';
 import 'package:cut_count/features/settings/screens/setting_screen.dart';
 
-import '../../dashboard/screens/home_screen.dart';
+import '../../dashboard/screens/dashboard_screen.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});
@@ -17,6 +16,9 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   int _selectedIndex = 0;
 
+  // Controls the PageView programmatically (tap-driven, not finger-driven).
+  final PageController _pageController = PageController();
+
   final List<Widget> _screens = const [
     DashboardScreen(),
     HistoryScreen(),
@@ -25,38 +27,35 @@ class _BottomBarState extends State<BottomBar> {
   ];
 
   @override
+  void dispose() {
+    _pageController.dispose(); // always dispose controllers
+    super.dispose();
+  }
+
+  // Called when a nav bar item is tapped.
+  void _onTabTapped(int index) {
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 320),
+      curve: Curves.easeInOutCubic, // smooth, natural page-glide feel
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final primary = colorScheme.primary;
 
     return Scaffold(
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 280),
-        switchInCurve: Curves.easeOutCubic,
-        switchOutCurve: Curves.easeInCubic,
-        transitionBuilder: (child, animation) {
-          final offset = Tween<Offset>(
-            begin: const Offset(0.04, 0),
-            end: Offset.zero,
-          ).animate(animation);
-
-          return FadeTransition(
-            opacity: animation,
-            child: SlideTransition(position: offset, child: child),
-          );
-        },
-        child: KeyedSubtree(
-          key: ValueKey(_selectedIndex),
-          child: _screens[_selectedIndex],
-        ),
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(), // blocks finger swipe
+        onPageChanged: (index) => setState(() => _selectedIndex = index),
+        children: _screens,
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedIndex,
-        onDestinationSelected: (int newIndex) {
-          setState(() {
-            _selectedIndex = newIndex;
-          });
-        },
+        onDestinationSelected: _onTabTapped,
         height: 72,
         elevation: 0,
         backgroundColor: colorScheme.surface,

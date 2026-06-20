@@ -20,10 +20,10 @@ GoRouter router(bool isSeen) => GoRouter(
       builder: (context, state) => BottomBar(),
     ),
 
-    GoRoute(
-      name: '/Setting',
-      path: '/Setting',
-      builder: (context, state) => SettingScreen(),
-    ),
+  //   GoRoute(
+  //     name: '/Setting',
+  //     path: '/Setting',
+  //     builder: (context, state) => SettingScreen(),
+  //   ),
   ],
 );
