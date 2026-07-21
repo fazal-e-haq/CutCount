@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
+  fontFamily: 'Inter',
 
   // Scaffold background color using the user's defined color
   scaffoldBackgroundColor: const Color(0xfff5ede0),
@@ -228,8 +229,7 @@ ThemeData lightTheme = ThemeData(
   ),
 
   listTileTheme: ListTileThemeData(
-    contentPadding: EdgeInsets.all(10),
-    tileColor: Colors.red,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
     minTileHeight: 40,
   ),
 );

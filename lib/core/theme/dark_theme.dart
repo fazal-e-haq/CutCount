@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.dark,
+  fontFamily: 'Inter',
 
   // Scaffold background color using the user's defined dark color
   scaffoldBackgroundColor: const Color(0xff1A1A1A),
@@ -227,5 +228,10 @@ ThemeData darkTheme = ThemeData(
       }
       return const Color(0xFF333333);
     }),
+  ),
+
+  listTileTheme: ListTileThemeData(
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+    minTileHeight: 40,
   ),
 );

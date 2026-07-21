@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/constants/app_sizes.dart';
+import '../../../core/widgets/buttons/reusable_button.dart';
+import '../../../routes/routing_name.dart';
 import '../providers/onboarding_provider.dart';
 import '../widgets/onboard_info.dart';
 
+// First-run experience for the app.
+// This screen explains the value of the product before the user enters the main flow.
 class OnboardScreen extends StatefulWidget {
   const OnboardScreen({super.key});
 
@@ -21,105 +26,154 @@ class _OnboardScreenState extends State<OnboardScreen> {
     super.dispose();
   }
 
+  void _goNext(OnboardingProvider provider) {
+    if (provider.currentIndex == provider.introInfo.length - 1) {
+      provider.setOnboardingSeen();
+      context.goNamed(RouteNames.home);
+      return;
+    }
+
+    pageController.nextPage(
+      duration: const Duration(milliseconds: 420),
+      curve: Curves.easeOutCubic,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Primary orange color from the active theme
-    final Color primary = Theme.of(context).colorScheme.primary;
-    // Outline color used for inactive dot borders — adapts to light/dark
-    final Color outline = Theme.of(context).colorScheme.outline;
+    final theme = Theme.of(context);
+    final size = MediaQuery.sizeOf(context);
     final provider = context.read<OnboardingProvider>();
+
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: PageView.builder(
-                  controller: pageController,
-                  scrollDirection: Axis.horizontal,
-                  physics: const ClampingScrollPhysics(),
-                  onPageChanged: (value) {
-                    provider.onChange(value);
-                  },
-                  itemCount: provider.introInfo.length,
-                  itemBuilder: (context, index) {
-                    final item = provider.introInfo[index];
-                    return IntroInformation(
-                      // imagePath: item.imagePath,
-                      mainTitle: item.mainTitle,
-                      subTitle: item.subTitle,
-                    );
-                  },
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              theme.scaffoldBackgroundColor,
+              theme.colorScheme.surface.withValues(alpha: 0.85),
+              theme.scaffoldBackgroundColor,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: size.width < 380 ? 16 : 20,
+              vertical: 12,
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary.withValues(
+                          alpha: 0.12,
+                        ),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: Text(
+                        'Barber only',
+                        style: theme.textTheme.labelMedium?.copyWith(
+                          color: theme.colorScheme.primary,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                    TextButton(
+                      onPressed: () => context.goNamed(RouteNames.home),
+                      child: const Text('Skip'),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 30),
-              Selector<OnboardingProvider, int>(
-                selector: (contextOfProvider, provider) =>
-                    provider.currentIndex,
-                builder: (contextOfProvider, currentIndex, child) {
-                  return Row(
-                    mainAxisAlignment: .center,
-                    children: List.generate(
-                      contextOfProvider
-                          .read<OnboardingProvider>()
-                          .introInfo
-                          .length,
-                      (index) {
+                const SizedBox(height: 12),
+                Expanded(
+                  child: PageView.builder(
+                    controller: pageController,
+                    physics: const BouncingScrollPhysics(),
+                    onPageChanged: provider.onChange,
+                    itemCount: provider.introInfo.length,
+                    itemBuilder: (context, index) {
+                      final item = provider.introInfo[index];
+                      final palette = [
+                        theme.colorScheme.primary,
+                        theme.colorScheme.secondary,
+                        theme.colorScheme.primary.withValues(alpha: 0.88),
+                      ];
+
+                      return IntroInformation(
+                        icon: item.icon,
+                        mainTitle: item.mainTitle,
+                        subTitle: item.subTitle,
+                        accentColor: palette[index % palette.length],
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: AppSizes.lg),
+                Selector<OnboardingProvider, int>(
+                  selector: (_, provider) => provider.currentIndex,
+                  builder: (context, currentIndex, child) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(provider.introInfo.length, (
+                        index,
+                      ) {
                         final isActive = index == currentIndex;
                         return AnimatedContainer(
-                          height: 15,
-                          width: isActive ? 40 : 20,
-                          margin: const EdgeInsetsGeometry.symmetric(
-                            horizontal: 3,
-                          ),
-                          duration: const Duration(milliseconds: 700),
+                          duration: const Duration(milliseconds: 280),
+                          curve: Curves.easeOut,
+                          height: 10,
+                          width: isActive ? 30 : 10,
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
                           decoration: BoxDecoration(
-                            // Active dot: filled with primary orange
-                            // Inactive dot: transparent fill with outline border
-                            color: isActive ? primary : Colors.transparent,
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(
-                              color: isActive ? Colors.transparent : outline,
-                              width: 2,
-                            ),
+                            color: isActive
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.outline.withValues(
+                                    alpha: 0.35,
+                                  ),
+                            borderRadius: BorderRadius.circular(999),
                           ),
                         );
-                      },
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                width: double.infinity,
-                child: Selector<OnboardingProvider, int>(
-                  selector: (p0, p1) => p1.currentIndex,
-                  builder: (providerContext, value, child) {
-                    final provider = providerContext.read<OnboardingProvider>();
-                    return ElevatedButton(
-                      onPressed: () {
-                        if (provider.currentIndex ==
-                            provider.introInfo.length - 1) {
-                          provider.setOnboardingSeen();
-                          // go() replaces the navigation stack — user can't press back to onboarding
-                          context.go('/BottomBar');
-                        } else {
-                          pageController.nextPage(
-                            duration: const Duration(milliseconds: 700),
-                            curve: Curves.easeOut,
-                          );
-                        }
-                      },
-                      child: const Text('Next'),
+                      }),
                     );
                   },
                 ),
-              ),
-            ],
+                const SizedBox(height: AppSizes.lg),
+                Selector<OnboardingProvider, int>(
+                  selector: (_, provider) => provider.currentIndex,
+                  builder: (context, currentIndex, child) {
+                    final isLastPage =
+                        currentIndex == provider.introInfo.length - 1;
+
+                    return Column(
+                      children: [
+                        ReusableButton(
+                          text: isLastPage ? 'Get Started' : 'Next',
+                          onPressed: () => _goNext(provider),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          isLastPage
+                              ? 'You are ready to manage the shop.'
+                              : 'Swipe to continue through the app features.',
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.bodyMedium,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
