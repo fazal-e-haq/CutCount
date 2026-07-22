@@ -17,11 +17,11 @@
         </shape>
     </item>
 
-    <!-- Centered app logo (logo.png from mipmap) -->
+    <!-- Centered app logo -->
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/ic_launcher_foreground"/>
+            android:src="@drawable/splash"/>
     </item>
 
 </layer-list>
