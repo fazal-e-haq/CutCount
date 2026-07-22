@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Native splash for DARK mode (and v21 dark, pre-Android 12).
+    Uses the same brand orange background for consistency —
+    the orange splash looks identical in light and dark mode.
+
+    Layout:
+      - Layer 1: solid brand orange background (#E95401)
+      - Layer 2: logo centered on top
+-->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Solid brand orange background (same as light — consistent brand feel) -->
     <item>
-        <bitmap android:gravity="fill" android:src="@drawable/background"/>
+        <shape android:shape="rectangle">
+            <solid android:color="#E95401"/>
+        </shape>
     </item>
+
+    <!-- Centered app logo -->
     <item>
-        <bitmap android:gravity="center" android:src="@drawable/splash"/>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/splash"/>
     </item>
+
 </layer-list>

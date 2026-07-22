@@ -1,0 +1,47 @@
+import 'package:cut_count/core/constants/app_sizes.dart';
+import 'package:cut_count/core/widgets/app_ui/app_ui.dart';
+import 'package:cut_count/core/widgets/auto_size_text/reusable_auto_size_text.dart';
+import 'package:cut_count/core/widgets/custom_list_tile.dart';
+import 'package:cut_count/features/history/providers/history_provider.dart';
+import 'package:flutter/material.dart';
+
+class MonthHistoryScreen extends StatelessWidget {
+  const MonthHistoryScreen({super.key, required this.monthHistory});
+
+  final MonthHistory monthHistory;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppUi(
+      appBarTitle: Text(monthHistory.monthLabel),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ReusableAutoSizeText(
+            'Day by day history',
+            style: Theme.of(context).textTheme.headlineMedium,
+            maxLines: 1,
+          ),
+          const SizedBox(height: AppSizes.md),
+          Text(
+            '${monthHistory.totalCuts} • ${monthHistory.totalAmount}',
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+          const SizedBox(height: AppSizes.lg),
+          ...monthHistory.days.map(
+            (day) => Padding(
+              padding: const EdgeInsets.only(bottom: AppSizes.sm),
+              child: CustomListTile(
+                leading: const Icon(Icons.event_note),
+                title: Text(day.title),
+                subtitle: Text(day.time),
+                trailing: Text(day.amount),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
