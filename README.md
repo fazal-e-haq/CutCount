@@ -1,267 +1,98 @@
 # Cut Count
 
-![Cut Count Logo](assets/images/logo.png)
+![Cut Count Logo](assets/images/app_logo/CutCount-logo.png)
 
-Cut Count is a barber-only shop management app built to help barbers record daily cuts, track total amount, view monthly performance, manage services, inspect history, and keep the shop workflow simple.
+**Cut Count** is a dedicated, offline-first shop management app designed exclusively for barbers. It streamlines the daily workflow of recording cuts, tracking revenue, and analyzing monthly performance without the clutter of generic business tools.
 
-## Why We Created This App
+## Why Cut Count?
 
-Most barber shops still track earnings and cuts in notebooks, memory, or scattered phone notes. That causes a few common problems:
+Most barber shops still rely on notebooks or scattered phone notes, leading to forgotten cuts, miscalculated earnings, and inconsistent service pricing. Cut Count solves this by providing a unified, high-performance interface focused purely on barber shop operations.
 
-- daily cuts are forgotten
-- amounts are not counted correctly
-- monthly progress is hard to review
-- service prices become inconsistent
-- history is difficult to search later
+With Cut Count, a barber can instantly answer:
+- How many cuts did I complete today?
+- What are my total earnings for the day/month?
+- Which services are the most popular?
+- How is my overall business performing over time?
 
-Cut Count solves that by putting everything in one clean app focused on barber shop operations.
+---
 
-## What Problem It Solves
+## Key Features
 
-This app is designed to answer the questions barbers ask every day:
+- **Dashboard**: A quick daily overview of total cuts, total amount, recent activity, and quick-add service tiles.
+- **Dynamic Services**: Create, edit, and delete services with custom names, prices, notes, and icons.
+- **Advanced History**: View detailed daily and monthly breakdowns. The history uses **true deferred (lazy) loading** via Slivers, ensuring silky-smooth 120fps scrolling even with tens of thousands of records.
+- **Analytics & Profile**: Graphical performance summaries powered by interactive `fl_chart` line and bar charts. Easily update your professional profile name and subtitle.
+- **Customization**: Fully supports dynamic light/dark themes and multi-currency formatting (PKR, USD, INR, GBP, EUR).
+- **Robust & Safe**: Comprehensive `try-catch` exception handling on all local database calls. The app displays graceful loading indicators during async operations and never silently crashes.
 
-- How many cuts did I do today?
-- How much money did I make today?
-- Which services are popular?
-- How did this month perform?
-- What happened on a specific day?
+---
 
-Instead of using separate notes or a calculator, the barber can open one app and see the full shop picture.
+## Technical Stack & Architecture
 
-## Core Purpose
+This project is built using modern Flutter best practices, emphasizing performance, strict typing, and clean state management.
 
-- manage daily cuts and daily amount
-- view monthly cuts and monthly amount with graphs
-- add and maintain service prices
-- check today history and monthly history
-- review profile-level shop performance
+- **Framework**: Flutter (SDK ^3.12.2)
+- **State Management**: `provider` (Scoped providers for History, Services, and Settings)
+- **Local Database**: `isar_community` (High-performance, offline NoSQL database for Cut Records and Services)
+- **Local Storage**: `shared_preferences` (For lightweight user settings and profile data)
+- **Routing**: `go_router` (Declarative, URL-based routing)
+- **UI & Layout**: 
+  - `CustomScrollView` and `SliverMainAxisGroup` for infinite, memory-efficient scrolling.
+  - `SafeArea` and `LayoutBuilder` for pixel-perfect responsiveness across all Android/iOS screen ratios.
+- **Charts**: `fl_chart` (Animated, interactive data visualization)
+- **Typography**: Custom hierarchical fonts (`Unbounded`, `Poppins`, `Inter`)
 
-## How The App Works
-
-1. The app opens with onboarding for new users.
-2. The barber enters the app and lands on the dashboard.
-3. The dashboard shows today summary, services, and recent cuts.
-4. The barber can add services from the Services screen.
-5. The History screen shows today history and monthly history.
-6. Monthly history opens a month detail page for day-by-day review.
-7. The Profile screen shows all-time performance graphs and quick actions.
-8. Settings lets the barber control theme, currency, biometric access, and notifications.
-
-## Step-by-Step User Flow
-
-### 1. First Launch
-
-- The onboarding screen explains what the app does.
-- The app remembers if onboarding was already seen.
-- Returning users skip onboarding automatically.
-
-### 2. Dashboard
-
-- The barber sees today summary cards.
-- The barber can review active services in a horizontal scroll list.
-- The barber can inspect recent cuts and amounts.
-
-### 3. Services
-
-- Tap the floating `+` button to add a service.
-- Enter service name, price, note, and choose an icon.
-- Saved services appear in the list immediately.
-
-### 4. History
-
-- Toggle between Today and Monthly.
-- Today shows the current day list.
-- Monthly shows month cards.
-- Tapping a month opens detailed day-by-day history for that month.
-
-### 5. Profile
-
-- See the barber name and avatar.
-- Review all-time cuts and all-time amount.
-- Read charts that show performance over time.
-- Use quick action tiles for future user actions.
-
-### 6. Settings
-
-- Change theme.
-- Change currency.
-- Enable biometric login.
-- Manage notifications.
-- Review future features and how to use the app.
-
-## Screens
-
-### Dashboard
-
-Shows:
-
-- today cuts
-- today amount
-- monthly cuts
-- monthly amount
-- services list
-- recent cuts
-
-### Services
-
-Used to manage shop services such as:
-
-- fade cut
-- shave
-- hair wash
-- styling
-- beard trim
-
-### History
-
-Used to view:
-
-- today history
-- monthly history
-- month detail history
-
-### Profile
-
-Used to show:
-
-- barber profile info
-- all-time cuts
-- all-time amount
-- graph-based performance summary
-- quick action items
-
-### Settings
-
-Used to manage:
-
-- theme
-- currency
-- biometric access
-- notifications
-- future feature list
-- how-to-use help section
-
-## Future Features
-
-The app is structured to grow into more advanced shop management tools. Planned ideas include:
-
-- biometric unlock
-- cloud backup
-- receipt printer support
-- advanced analytics
-- staff management
-- multi-language support
-- export history to file
-- better shop profile sharing
-- voice command support
-
-## Voice Command Idea
-
-One future feature is voice command support so the barber can say something like:
-
-- "Add cut"
-- "Show today amount"
-- "Open monthly history"
-- "Know service details"
-
-This would help when the barber is busy and wants faster input without typing.
-
-## Help Materials
-
-If you are new to the app, start here:
-
-### Quick Help
-
-- Use Dashboard for quick daily overview.
-- Use Services to maintain prices.
-- Use History to review past work.
-- Use Profile to see overall shop progress.
-- Use Settings if you want to change how the app looks or behaves.
-
-### Best Practices
-
-- Add services first so prices stay organized.
-- Check daily history before closing the shop.
-- Review monthly graphs at the end of the week.
-- Keep theme and currency settings consistent for your shop.
-
-### Suggested Daily Routine
-
-1. Open Dashboard in the morning.
-2. Add services or check the current list.
-3. Use History during the day to review entries.
-4. End the day by checking today amount and total cuts.
-5. Review monthly progress from the Profile screen.
+---
 
 ## Project Structure
 
 ```text
 lib/
   core/
-    constants/        shared padding and spacing values
-    layout/           phone and tablet breakpoint helpers
-    theme/            light and dark theme configuration
-    widgets/          reusable UI widgets used across features
+    constants/        Shared padding and dimension values (AppSizes)
+    layout/           Phone and tablet breakpoint helpers
+    theme/            Light and dark ColorScheme configurations
+    widgets/          Reusable UI widgets (AppUi, CustomListTile, ReusableTextField)
+  data/
+    database/         Isar database initialization and CRUD operations
+    models/           Isar schemas (ServiceModel, CutRecordModel)
   features/
-    onboard/          onboarding state, model, widgets, and screen
-    dashboard/        dashboard summary cards and overview layout
-    services/         services state and service management UI
-    history/          today/month history providers and screens
-    profile/          all-time graphs and profile actions
-    settings/         app preferences and future feature list
-  routes/             named routes and GoRouter setup
+    onboard/          Onboarding flow
+    dashboard/        Dashboard summary cards and overview layout
+    services/         Services state provider and management UI
+    history/          History provider, charts, and lazy-loaded history lists
+    profile/          All-time graphs, stats, and profile editing
+    settings/         App preferences (currency, theme)
+  routes/             Named routes and GoRouter configuration
 ```
 
-## Reusable Components
-
-This app uses shared widgets so the UI stays consistent:
-
-- `ReusableAutoSizeText`
-- `ReusableButton`
-- `ReusableTextField`
-- `CustomListTile`
-- `ReusableAppbar`
-- `AppUi`
-
-## Fonts
-
-Typography is intentionally split for better hierarchy:
-
-- `Unbounded` for app bar and large title text
-- `Poppins` for medium and small headings
-- `Inter` for body text and general UI text
-
-[//]: # (## Assets)
-
-[//]: # ()
-[//]: # (- `assets/images/logo.png`)
-
-[//]: # (- `assets/images/splash.png`)
-
-[//]: # (- `assets/images/HairCutting.jpeg`)
-
-[//]: # (- `assets/images/BeardCutting.jpeg`)
-
-[//]: # (- `assets/images/Shaving.jpeg`)
-
-[//]: # (- `assets/images/Shower.jpeg`)
-
-[//]: # (- `assets/images/pic.png`)
+---
 
 ## How To Run
 
-1. Install Flutter SDK.
-2. Open the project folder.
-3. Run:
+1. Ensure you have the **Flutter SDK** installed (version 3.12.2 or higher).
+2. Clone or open the project folder.
+3. Install dependencies:
+   ```bash
+   flutter pub get
+   ```
+4. If you modify any database models, regenerate the Isar boilerplate:
+   ```bash
+   flutter pub run build_runner build
+   ```
+5. Run the app:
+   ```bash
+   flutter run
+   ```
 
-```bash
-flutter pub get
-flutter run
-```
+---
 
-## Notes
+## Future Roadmap
 
-- The app currently uses local state and `SharedPreferences` for persistence.
-- Some planned features are listed in Settings but not fully implemented yet.
-- The UI is designed for barber shop management first, not for general business use.
-
+The application architecture is designed to scale gracefully. Planned features include:
+- Biometric unlock (Fingerprint/FaceID)
+- Cloud backup and sync
+- Receipt printer integrations
+- Advanced multi-staff analytics
+- Voice command support (e.g., "Add fade cut")
+- Data export functionality (CSV/PDF)

@@ -32,15 +32,7 @@ class SettingsScreen extends StatelessWidget {
                         onChanged: settings.toggleTheme,
                       ),
                     ),
-                    CustomListTile(
-                      leading: const Icon(Icons.fingerprint),
-                      title: const Text('Biometric login'),
-                      subtitle: const Text('Use fingerprint or face unlock'),
-                      trailing: Switch(
-                        value: settings.biometricsEnabled,
-                        onChanged: settings.toggleBiometrics,
-                      ),
-                    ),
+
                     CustomListTile(
                       leading: const Icon(Icons.notifications_outlined),
                       title: const Text('Notifications'),
@@ -63,6 +55,8 @@ class SettingsScreen extends StatelessWidget {
                       AppCurrency.pkr => 'PKR',
                       AppCurrency.usd => 'USD',
                       AppCurrency.inr => 'INR',
+                      AppCurrency.gbp => 'GBP',
+                      AppCurrency.eur => 'EUR',
                     };
                     return CustomListTile(
                       leading: const Icon(Icons.attach_money),
@@ -109,13 +103,7 @@ class SettingsScreen extends StatelessWidget {
                       subtitle: Text('Weekly trends and performance insights'),
                       trailing: Icon(Icons.chevron_right),
                     ),
-                    Divider(height: 1),
-                    CustomListTile(
-                      leading: Icon(Icons.group_outlined),
-                      title: Text('Staff management'),
-                      subtitle: Text('Add workers and track permissions'),
-                      trailing: Icon(Icons.chevron_right),
-                    ),
+
                     Divider(height: 1),
                     CustomListTile(
                       leading: Icon(Icons.language_outlined),
@@ -173,12 +161,7 @@ class SettingsScreen extends StatelessWidget {
                       title: Text('Privacy policy'),
                       trailing: Icon(Icons.chevron_right),
                     ),
-                    Divider(height: 1),
-                    CustomListTile(
-                      leading: Icon(Icons.notifications_active_outlined),
-                      title: Text('Notification settings'),
-                      trailing: Icon(Icons.chevron_right),
-                    ),
+
                   ],
                 ),
               ),

@@ -14,33 +14,45 @@ class MonthHistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppUi(
       appBarTitle: Text(monthHistory.monthLabel),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ReusableAutoSizeText(
-            'Day by day history',
-            style: Theme.of(context).textTheme.headlineMedium,
-            maxLines: 1,
-          ),
-          const SizedBox(height: AppSizes.md),
-          Text(
-            '${monthHistory.totalCuts} • ${monthHistory.totalAmount}',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          const SizedBox(height: AppSizes.lg),
-          ...monthHistory.days.map(
-            (day) => Padding(
-              padding: const EdgeInsets.only(bottom: AppSizes.sm),
-              child: CustomListTile(
-                leading: const Icon(Icons.event_note),
-                title: Text(day.title),
-                subtitle: Text(day.time),
-                trailing: Text(day.amount),
+      slivers: [
+        SliverMainAxisGroup(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ReusableAutoSizeText(
+                    'Day by day history',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                    maxLines: 1,
+                  ),
+                  const SizedBox(height: AppSizes.md),
+                  Text(
+                    '${monthHistory.totalCuts} • ${monthHistory.totalAmount}',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(height: AppSizes.lg),
+                ],
               ),
             ),
-          ),
-        ],
-      ),
+            SliverList.builder(
+              itemCount: monthHistory.days.length,
+              itemBuilder: (context, index) {
+                final day = monthHistory.days[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: AppSizes.sm),
+                  child: CustomListTile(
+                    leading: const Icon(Icons.event_note),
+                    title: Text(day.title),
+                    subtitle: Text(day.time),
+                    trailing: Text(day.amount),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

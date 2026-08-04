@@ -5,17 +5,18 @@ import '../appbar/reusable_appbar.dart';
 class AppUi extends StatelessWidget {
   const AppUi({
     super.key,
-    required this.body,
+    this.body,
+    this.slivers,
     this.appBarTitle,
     this.appBarActions,
     this.bodyPadding = const EdgeInsets.all(16),
-
     this.floatingActionButton,
     this.fabLocation,
     this.resizeToAvoidBottomInset = true,
-  });
+  }) : assert(body != null || slivers != null, 'Provide either body or slivers');
 
-  final Widget body;
+  final Widget? body;
+  final List<Widget>? slivers;
   final Widget? appBarTitle;
   final List<Widget>? appBarActions;
   final EdgeInsetsGeometry bodyPadding;
@@ -35,13 +36,25 @@ class AppUi extends StatelessWidget {
       body: SafeArea(
         child: ScrollConfiguration(
           behavior: const _SmoothScrollBehavior(),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics(),
-            ),
-            padding: bodyPadding,
-            child: body,
-          ),
+          child: slivers != null
+              ? CustomScrollView(
+                  physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics(),
+                  ),
+                  slivers: [
+                    SliverPadding(
+                      padding: bodyPadding,
+                      sliver: SliverMainAxisGroup(slivers: slivers!),
+                    ),
+                  ],
+                )
+              : SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics(),
+                  ),
+                  padding: bodyPadding,
+                  child: body,
+                ),
         ),
       ),
 

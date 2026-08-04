@@ -1,28 +1,24 @@
 import "package:flutter/material.dart";
 
+const ColorScheme _darkColorScheme = ColorScheme.dark(
+  primary: Color(0xffE95401),
+  onPrimary: Colors.white,
+  secondary: Color(0xFFFFA066),
+  onSecondary: Colors.black,
+  surface: Color(0xff222222),
+  onSurface: Color(0xFFE0E0E0),
+  error: Color(0xFFCF6679),
+  onError: Colors.black,
+  outline: Color(0xFF444444),
+);
+
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.dark,
   fontFamily: 'Inter',
-
-  // Scaffold background color using the user's defined dark color
   scaffoldBackgroundColor: const Color(0xff1A1A1A),
-
-  // Define the core color scheme for the dark theme
-  colorScheme: const ColorScheme.dark(
-    primary: Color(0xffE95401), // Main accent/orange color
-    onPrimary: Colors.white,
-    secondary: Color(0xFFFFA066), // Softer orange-accent for dark mode elements
-    onSecondary: Colors.black,
-    surface: Color(0xff222222), // Lighter gray for card backgrounds
-    onSurface: Color(0xFFE0E0E0), // Primary text color in dark mode
-    error: Color(0xFFCF6679), // Dark mode standard error color
-    onError: Colors.black,
-    outline: Color(0xFF444444), // Dark mode borders and dividers
-  ),
-
-  // Typography / TextTheme matching the local fonts: Inter, Poppins, Unbounded
-  textTheme: const TextTheme(
+  colorScheme: _darkColorScheme,
+  textTheme: TextTheme(
     bodySmall: TextStyle(
       fontSize: 12,
       fontFamily: 'Inter',
@@ -31,7 +27,7 @@ ThemeData darkTheme = ThemeData(
       letterSpacing: 0.4,
       wordSpacing: 0.2,
       height: 1.4,
-      color: Color(0xFFB0B0B0), // Soft gray for small text
+      color: _darkColorScheme.onSurface.withValues(alpha: 0.7),
     ),
     bodyMedium: TextStyle(
       fontSize: 14,
@@ -41,7 +37,7 @@ ThemeData darkTheme = ThemeData(
       letterSpacing: 0.25,
       wordSpacing: 0.2,
       height: 1.5,
-      color: Color(0xFFD0D0D0), // Medium gray for general body text
+      color: _darkColorScheme.onSurface.withValues(alpha: 0.85),
     ),
     bodyLarge: TextStyle(
       fontSize: 16,
@@ -51,7 +47,7 @@ ThemeData darkTheme = ThemeData(
       letterSpacing: 0.15,
       wordSpacing: 0.25,
       height: 1.5,
-      color: Color(0xFFE0E0E0), // Light gray for readable large text
+      color: _darkColorScheme.onSurface,
     ),
     headlineSmall: TextStyle(
       fontSize: 20,
@@ -61,7 +57,7 @@ ThemeData darkTheme = ThemeData(
       letterSpacing: 0.0,
       wordSpacing: 0.0,
       height: 1.3,
-      color: Color(0xFFF0F0F0), // Almost white for titles
+      color: _darkColorScheme.onSurface,
     ),
     headlineMedium: TextStyle(
       fontSize: 24,
@@ -71,7 +67,7 @@ ThemeData darkTheme = ThemeData(
       letterSpacing: 0.0,
       wordSpacing: 0.0,
       height: 1.25,
-      color: Color(0xFFFFFFFF), // Pure white for headers
+      color: _darkColorScheme.onSurface,
     ),
     headlineLarge: TextStyle(
       fontSize: 26,
@@ -81,11 +77,9 @@ ThemeData darkTheme = ThemeData(
       letterSpacing: -0.25,
       wordSpacing: 0.0,
       height: 1.2,
-      color: Color(0xFFFFFFFF), // Pure white for large/unbounded text
+      color: _darkColorScheme.onSurface,
     ),
   ),
-
-  // AppBar styling
   appBarTheme: const AppBarTheme(
     backgroundColor: Color(0xff1A1A1A),
     elevation: 0,
@@ -99,8 +93,6 @@ ThemeData darkTheme = ThemeData(
       color: Colors.white,
     ),
   ),
-
-  // Floating Action Button styling
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     sizeConstraints: BoxConstraints(
       maxHeight: 60,
@@ -114,11 +106,9 @@ ThemeData darkTheme = ThemeData(
     backgroundColor: Color(0xffE95401),
     foregroundColor: Colors.white,
   ),
-
-  // ElevatedButton styling
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: const Color(0xffE95401), // Keep cohesive orange primary
+      backgroundColor: const Color(0xffE95401),
       foregroundColor: Colors.white,
       elevation: 4,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
@@ -130,8 +120,6 @@ ThemeData darkTheme = ThemeData(
       ),
     ),
   ),
-
-  // OutlinedButton styling
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       foregroundColor: const Color(0xffE95401),
@@ -145,13 +133,9 @@ ThemeData darkTheme = ThemeData(
       ),
     ),
   ),
-
-  // TextButton styling
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
-      foregroundColor: const Color(
-        0xffFFA066,
-      ), // Softer accent for dark mode text buttons
+      foregroundColor: const Color(0xffFFA066),
       textStyle: const TextStyle(
         fontFamily: 'Inter',
         fontSize: 14,
@@ -159,25 +143,19 @@ ThemeData darkTheme = ThemeData(
       ),
     ),
   ),
-
-  // Card theme styling
   cardTheme: CardThemeData(
-    color: const Color(0xff222222), // Lighter gray surface
+    color: const Color(0xff222222),
     elevation: 0,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(16),
       side: const BorderSide(color: Color(0xFF333333), width: 1),
     ),
   ),
-
-  // Divider styling
   dividerTheme: const DividerThemeData(
     color: Color(0xFF333333),
     thickness: 1,
     space: 16,
   ),
-
-  // Input Field Decoration styling (TextField / TextFormField)
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     fillColor: const Color(0xff222222),
@@ -213,8 +191,6 @@ ThemeData darkTheme = ThemeData(
       borderSide: const BorderSide(color: Color(0xFFCF6679), width: 2),
     ),
   ),
-
-  // Switch, Radio and Checkbox styling
   switchTheme: SwitchThemeData(
     thumbColor: WidgetStateProperty.resolveWith((states) {
       if (states.contains(WidgetState.selected)) {
@@ -229,9 +205,8 @@ ThemeData darkTheme = ThemeData(
       return const Color(0xFF333333);
     }),
   ),
-
-  listTileTheme: ListTileThemeData(
-    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+  listTileTheme: const ListTileThemeData(
+    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
     minTileHeight: 40,
   ),
 );
