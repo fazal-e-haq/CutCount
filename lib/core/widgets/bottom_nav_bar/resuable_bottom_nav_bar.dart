@@ -18,28 +18,11 @@ class ReusableBottomBar extends StatefulWidget {
 
 class _ReusableBottomBarState extends State<ReusableBottomBar> {
   late int _currentIndex;
-  late final PageController _pageController;
 
   @override
   void initState() {
     super.initState();
-
     _currentIndex = widget.initialIndex;
-    _pageController = PageController(initialPage: widget.initialIndex);
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  void _changePage(int index) {
-    _pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
   }
 
   @override
@@ -47,32 +30,33 @@ class _ReusableBottomBarState extends State<ReusableBottomBar> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      body: PageView(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        onPageChanged: (index) {
-          setState(() => _currentIndex = index);
-        },
+      body: IndexedStack(
+        index: _currentIndex,
         children: widget.items.map((e) => e.page).toList(),
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: _changePage,
-        height: 72,
-        elevation: 0,
-        backgroundColor: theme.colorScheme.surface,
-        indicatorColor: theme.colorScheme.primary.withValues(alpha: .12),
-        animationDuration: const Duration(milliseconds: 300),
-        destinations: widget.items.map((item) {
-          return NavigationDestination(
-            icon: Icon(item.icon),
-            selectedIcon: Icon(
-              item.selectedIcon,
-              color: theme.colorScheme.primary,
-            ),
-            label: item.label,
-          );
-        }).toList(),
+      bottomNavigationBar: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        child: NavigationBar(
+          selectedIndex: _currentIndex,
+          onDestinationSelected: (index) {
+            setState(() => _currentIndex = index);
+          },
+          height: 72,
+          elevation: 0,
+          backgroundColor: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+          indicatorColor: theme.colorScheme.primary.withValues(alpha: .12),
+          animationDuration: const Duration(milliseconds: 300),
+          destinations: widget.items.map((item) {
+            return NavigationDestination(
+              icon: Icon(item.icon),
+              selectedIcon: Icon(
+                item.selectedIcon,
+                color: theme.colorScheme.primary,
+              ),
+              label: item.label,
+            );
+          }).toList(),
+        ),
       ),
     );
   }

@@ -1,35 +1,101 @@
 import 'package:flutter/material.dart';
-
-// Simple in-memory service catalog used by the Services screen.
-// In production this is the spot where a repository or database layer can replace mock data.
-class ServiceItem {
-  ServiceItem({
-    required this.name,
-    required this.price,
-    required this.icon,
-    this.note = '',
-  });
-
-  final String name;
-  final String price;
-  final IconData icon;
-  final String note;
-}
+import '../../../data/database/isar_service.dart';
+import '../../../data/models/service_model.dart';
 
 class ServicesProvider with ChangeNotifier {
-  // Seed data so the dashboard and services screen look realistic before backend integration.
-  final List<ServiceItem> _services = [
-    ServiceItem(name: 'Fade Cut', price: 'Rs. 800', icon: Icons.content_cut),
-    ServiceItem(name: 'Shave', price: 'Rs. 300', icon: Icons.face_retouching_natural),
-    ServiceItem(name: 'Hair Wash', price: 'Rs. 250', icon: Icons.water_drop),
-    ServiceItem(name: 'Styling', price: 'Rs. 500', icon: Icons.brush),
-  ];
+  final IsarService _isarService;
+  List<ServiceModel> _services = [];
 
-  List<ServiceItem> get services => List.unmodifiable(_services);
+  bool isLoading = false;
+  String? errorMessage;
 
-  // Insert new services at the top so the newest item is immediately visible.
-  void addService(ServiceItem service) {
-    _services.insert(0, service);
+  ServicesProvider(this._isarService) {
+    _init();
+  }
+
+  // Load existing services or seed the database with initial values
+  Future<void> _init() async {
+    isLoading = true;
+    errorMessage = null;
     notifyListeners();
+
+    try {
+      await _isarService.db; 
+      _services = await _isarService.getAllServices();
+      
+      if (_services.isEmpty) {
+        final defaults = [
+          ServiceModel()..name = 'Fade Cut'..price = 800..iconCodePoint = Icons.content_cut.codePoint,
+          ServiceModel()..name = 'Shave'..price = 300..iconCodePoint = Icons.face_retouching_natural.codePoint,
+          ServiceModel()..name = 'Hair Wash'..price = 250..iconCodePoint = Icons.water_drop.codePoint,
+          ServiceModel()..name = 'Styling'..price = 500..iconCodePoint = Icons.brush.codePoint,
+        ];
+        for (var s in defaults) {
+          await _isarService.saveService(s);
+        }
+        _services = await _isarService.getAllServices();
+      }
+    } catch (e) {
+      errorMessage = 'Failed to load services';
+      debugPrint('Error in _init: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  List<ServiceModel> get services => List.unmodifiable(_services);
+
+  // Add a new service and refresh the list
+  Future<void> addService(ServiceModel service) async {
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+
+    try {
+      await _isarService.saveService(service);
+      _services = await _isarService.getAllServices();
+    } catch (e) {
+      errorMessage = 'Failed to add service';
+      debugPrint('Error in addService: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+  // Update an existing service
+  Future<void> updateService(ServiceModel service) async {
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+
+    try {
+      await _isarService.saveService(service);
+      _services = await _isarService.getAllServices();
+    } catch (e) {
+      errorMessage = 'Failed to update service';
+      debugPrint('Error in updateService: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  // Delete a service by its ID
+  Future<void> deleteService(int id) async {
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+
+    try {
+      await _isarService.deleteService(id);
+      _services = await _isarService.getAllServices();
+    } catch (e) {
+      errorMessage = 'Failed to delete service';
+      debugPrint('Error in deleteService: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 }

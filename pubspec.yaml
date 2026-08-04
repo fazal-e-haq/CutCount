@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.11.0-163.0.dev
+  sdk: ^3.12.2
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -36,6 +36,11 @@ dependencies:
   provider: ^6.1.5+1
   shared_preferences: ^2.5.4
   auto_size_text: ^3.0.0
+  path_provider: ^2.1.6
+  intl: ^0.20.3
+  isar_community: ^3.3.2
+  isar_community_flutter_libs: ^3.3.2
+  fl_chart: ^1.2.0
 
 
 
@@ -50,6 +55,9 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   flutter_launcher_icons: ^0.14.4
+  build_runner: ^2.4.13
+  isar_community_generator: ^3.3.2
+  mocktail: ^1.0.5
 
 
 

@@ -18,27 +18,20 @@ class CustomListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Card(
-        color: theme.cardColor,
-        elevation: 0,
-        margin: EdgeInsets.zero,
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
-          child: ListTile(
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 6,
-            ),
-            leading: leading,
-            title: title,
-            subtitle: subtitle,
-            trailing: trailing,
+      child: InkWell(
+        onTap: onTap,
+        child: ListTile(
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 6,
           ),
+
+          leading: leading,
+          title: title,
+          subtitle: subtitle,
+          trailing: trailing,
         ),
       ),
     );
