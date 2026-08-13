@@ -28,7 +28,7 @@ class MonthHistoryScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSizes.md),
                   Text(
-                    '${monthHistory.totalCuts} • ${monthHistory.totalAmount}',
+                    '${monthHistory.totalCuts} cuts • ${monthHistory.totalAmount}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(height: AppSizes.lg),
@@ -43,9 +43,9 @@ class MonthHistoryScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: AppSizes.sm),
                   child: CustomListTile(
                     leading: const Icon(Icons.event_note),
-                    title: Text(day.title),
-                    subtitle: Text(day.time),
-                    trailing: Text(day.amount),
+                    title: Text(day.dayLabel),
+                    subtitle: Text('${day.cutCount} cuts'),
+                    trailing: Text('${day.totalAmount}'),
                   ),
                 );
               },

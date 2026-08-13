@@ -142,54 +142,27 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
 
-              // ---------- Cuts trend chart ----------
+              // ---------- Cuts trend bar chart ----------
               const SizedBox(height: AppSizes.xl),
-              ReusableAutoSizeText(
-                'All time cuts',
-                style: Theme.of(context).textTheme.headlineSmall,
-                maxLines: 1,
-              ),
-              const SizedBox(height: AppSizes.md),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSizes.lg),
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return _LineChartCard(
-                        height: constraints.maxWidth < 360 ? 150 : 180,
-                        title: 'All time cuts trend',
-                        points: cutsTrend,
-                        color: Theme.of(context).colorScheme.primary,
-                        valueLabelBuilder: (value) => value.toString(),
-                      );
-                    },
-                  ),
-                ),
+              _BarChartSection(
+                sectionTitle: 'All time cuts',
+                points: cutsTrend,
+                barColor: Theme.of(context).colorScheme.primary,
+                valueLabelBuilder: (value) => value.toString(),
+                totalLabel: 'Total Cuts',
+                totalValue: cutsFormatted,
               ),
 
-              // ---------- Amount trend chart ----------
+              // ---------- Amount trend bar chart ----------
               const SizedBox(height: AppSizes.xl),
-              ReusableAutoSizeText(
-                'All time amount',
-                style: Theme.of(context).textTheme.headlineSmall,
-                maxLines: 1,
-              ),
-              const SizedBox(height: AppSizes.md),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSizes.lg),
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return _LineChartCard(
-                        height: constraints.maxWidth < 360 ? 150 : 180,
-                        title: 'All time amount trend',
-                        points: amountTrend,
-                        color: Theme.of(context).colorScheme.secondary,
-                        valueLabelBuilder: (value) => '${settings.currencySymbol} $value',
-                      );
-                    },
-                  ),
-                ),
+              _BarChartSection(
+                sectionTitle: 'All time amount',
+                points: amountTrend,
+                barColor: Theme.of(context).colorScheme.secondary,
+                valueLabelBuilder: (value) =>
+                    '${settings.currencySymbol} $value',
+                totalLabel: 'Total Amount',
+                totalValue: '${settings.currencySymbol} $amountFormatted',
               ),
 
               // ---------- Quick actions ----------
@@ -319,7 +292,7 @@ class ProfileScreen extends StatelessWidget {
 // Private helper classes used only inside this file.
 // -------------------------------------------------------------------------
 
-/// A single data point on the trend line chart.
+/// A single data point on the monthly bar chart.
 class _TrendPoint {
   const _TrendPoint({required this.label, required this.value});
 
@@ -359,70 +332,58 @@ class _ProfileStatCard extends StatelessWidget {
   }
 }
 
-/// Reusable line chart card that draws a trend line with labeled data points.
-class _LineChartCard extends StatelessWidget {
-  const _LineChartCard({
-    required this.height,
-    required this.title,
+// -------------------------------------------------------------------------
+// Bar chart section: title + bar chart card + total summary row.
+// -------------------------------------------------------------------------
+
+/// A complete section showing a heading, monthly bar chart card,
+/// and a total summary row beneath.
+class _BarChartSection extends StatelessWidget {
+  const _BarChartSection({
+    required this.sectionTitle,
     required this.points,
-    required this.color,
+    required this.barColor,
     required this.valueLabelBuilder,
+    required this.totalLabel,
+    required this.totalValue,
   });
 
-  final double height;
-  final String title;
+  final String sectionTitle;
   final List<_TrendPoint> points;
-  final Color color;
+  final Color barColor;
   final String Function(int value) valueLabelBuilder;
+  final String totalLabel;
+  final String totalValue;
 
   @override
   Widget build(BuildContext context) {
-    final maxValue = points.map((e) => e.value).reduce((a, b) => a > b ? a : b);
-    final minValue = points.map((e) => e.value).reduce((a, b) => a < b ? a : b);
-    final range = (maxValue - minValue).clamp(1, 1 << 31);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _ChartLegend(color: color, label: title),
+        ReusableAutoSizeText(
+          sectionTitle,
+          style: Theme.of(context).textTheme.headlineSmall,
+          maxLines: 1,
+        ),
         const SizedBox(height: AppSizes.md),
-        SizedBox(
-          height: height,
-          child: CustomPaint(
-            painter: _LineChartPainter(
-              points: points,
-              color: color,
-              minValue: minValue,
-              range: range,
-            ),
-            child: Stack(
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(AppSizes.lg),
+            child: Column(
               children: [
-                ...points.asMap().entries.map((entry) {
-                  final point = entry.value;
-                  return Align(
-                    alignment: Alignment(
-                      points.length == 1
-                          ? 0
-                          : -1 + (2 * entry.key / (points.length - 1)),
-                      1,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            valueLabelBuilder(point.value),
-                            style: Theme.of(context).textTheme.labelSmall,
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: height - 68),
-                          Text(point.label),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
+                _MonthlyBarChart(
+                  points: points,
+                  barColor: barColor,
+                  valueLabelBuilder: valueLabelBuilder,
+                ),
+                const SizedBox(height: AppSizes.md),
+                const Divider(height: 1),
+                const SizedBox(height: AppSizes.md),
+                _TotalSummaryRow(
+                  label: totalLabel,
+                  value: totalValue,
+                  color: barColor,
+                ),
               ],
             ),
           ),
@@ -432,91 +393,168 @@ class _LineChartCard extends StatelessWidget {
   }
 }
 
-class _ChartLegend extends StatelessWidget {
-  const _ChartLegend({required this.color, required this.label});
+/// Horizontally scrollable bar chart with monthly bars.
+class _MonthlyBarChart extends StatelessWidget {
+  const _MonthlyBarChart({
+    required this.points,
+    required this.barColor,
+    required this.valueLabelBuilder,
+  });
 
-  final Color color;
+  final List<_TrendPoint> points;
+  final Color barColor;
+  final String Function(int value) valueLabelBuilder;
+
+  @override
+  Widget build(BuildContext context) {
+    if (points.isEmpty || (points.length == 1 && points[0].value == 0)) {
+      return SizedBox(
+        height: 140,
+        child: Center(
+          child: Text(
+            'No data yet',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+          ),
+        ),
+      );
+    }
+
+    final maxValue =
+        points.map((e) => e.value).reduce((a, b) => a > b ? a : b);
+    const chartHeight = 140.0;
+    const barColumnWidth = 64.0; // width per bar column
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final availableWidth = constraints.maxWidth;
+        // If bars fit inside the card, spread them out; otherwise scroll
+        final contentWidth =
+            (points.length * barColumnWidth).clamp(availableWidth, double.infinity);
+
+        return SizedBox(
+          height: chartHeight + 40, // extra 40 for labels below bars
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            physics: contentWidth > availableWidth
+                ? const BouncingScrollPhysics()
+                : const NeverScrollableScrollPhysics(),
+            child: SizedBox(
+              width: contentWidth,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: points.map((point) {
+                  final barFraction =
+                      maxValue > 0 ? point.value / maxValue : 0.0;
+                  final barHeight = (barFraction * (chartHeight - 24))
+                      .clamp(4.0, chartHeight - 24);
+
+                  return Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          // Value label above bar
+                          Text(
+                            valueLabelBuilder(point.value),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 4),
+                          // The bar itself
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeOutCubic,
+                            height: barHeight,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(6),
+                              ),
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  barColor,
+                                  barColor.withValues(alpha: 0.7),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          // Month label below bar
+                          Text(
+                            point.label,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
+                                ),
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// Row at the bottom of the chart card showing the total.
+class _TotalSummaryRow extends StatelessWidget {
+  const _TotalSummaryRow({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
+
   final String label;
+  final String value;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           width: 12,
           height: 12,
-          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle,
+          ),
         ),
         const SizedBox(width: 8),
-        Text(label),
+        Text(
+          label,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+              ),
+        ),
+        const Spacer(),
+        Text(
+          value,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+        ),
       ],
     );
   }
 }
 
-class _LineChartPainter extends CustomPainter {
-  _LineChartPainter({
-    required this.points,
-    required this.color,
-    required this.minValue,
-    required this.range,
-  });
-
-  final List<_TrendPoint> points;
-  final Color color;
-  final int minValue;
-  final int range;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (points.length < 2) return;
-
-    final linePaint = Paint()
-      ..color = color
-      ..strokeWidth = 3
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-
-    final fillPaint = Paint()
-      ..shader = LinearGradient(
-        colors: [color.withValues(alpha: 0.22), color.withValues(alpha: 0.0)],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
-
-    final linePath = Path();
-    final fillPath = Path();
-
-    for (var i = 0; i < points.length; i++) {
-      final x = size.width * (i / (points.length - 1));
-      final normalized = (points[i].value - minValue) / range;
-      final y = size.height - (normalized * (size.height - 28)) - 18;
-
-      if (i == 0) {
-        linePath.moveTo(x, y);
-        fillPath.moveTo(x, y);
-      } else {
-        linePath.lineTo(x, y);
-        fillPath.lineTo(x, y);
-      }
-
-      canvas.drawCircle(Offset(x, y), 4, Paint()..color = color);
-    }
-
-    fillPath.lineTo(size.width, size.height);
-    fillPath.lineTo(0, size.height);
-    fillPath.close();
-
-    canvas.drawPath(fillPath, fillPaint);
-    canvas.drawPath(linePath, linePaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant _LineChartPainter oldDelegate) {
-    return oldDelegate.points != points ||
-        oldDelegate.color != color ||
-        oldDelegate.minValue != minValue ||
-        oldDelegate.range != range;
-  }
-}
