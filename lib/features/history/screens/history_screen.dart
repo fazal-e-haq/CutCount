@@ -5,6 +5,7 @@ import 'package:cut_count/core/widgets/custom_list_tile.dart';
 import 'package:cut_count/features/history/providers/history_provider.dart';
 import 'package:cut_count/routes/routing_name.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../settings/providers/settings_provider.dart';
@@ -21,8 +22,8 @@ class HistoryScreen extends StatelessWidget {
         Consumer2<HistoryProvider, SettingsProvider>(
           builder: (context, provider, settings, child) {
             final isMonthly = provider.showMonthly;
-            final bool isHistoryLoading = (provider as dynamic).isLoading ?? false;
-            final String? historyError = (provider as dynamic).errorMessage;
+            final bool isHistoryLoading = provider.isLoading;
+            final String? historyError = provider.errorMessage;
 
             return SliverMainAxisGroup(
               slivers: [
@@ -109,7 +110,7 @@ class HistoryScreen extends StatelessWidget {
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           subtitle: Text(
-                            '${month.totalCuts} • ${settings.currencySymbol} ${month.totalAmount}',
+                            '${month.totalCuts} cuts • ${settings.currencySymbol} ${month.totalAmount}',
                           ),
                           trailing: const Icon(Icons.chevron_right),
                         ),
@@ -130,7 +131,7 @@ class HistoryScreen extends StatelessWidget {
                             maxLines: 1,
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
-                          subtitle: Text(item.time),
+                          subtitle: Text(DateFormat.jm().format(item.time)),
                           trailing: Text('${settings.currencySymbol} ${item.amount}'),
                         ),
                       );

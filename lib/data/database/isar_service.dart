@@ -89,4 +89,91 @@ class IsarService {
       rethrow;
     }
   }
+
+  /// Get records within a specific date range, sorted newest first.
+  /// Uses the timestamp index for O(log N) performance.
+  Future<List<CutRecordModel>> getRecordsBetween(DateTime start, DateTime end) async {
+    try {
+      final isar = await db;
+      return await isar.cutRecordModels
+          .where()
+          .timestampBetween(start, end)
+          .sortByTimestampDesc()
+          .findAll();
+    } catch (e) {
+      debugPrint('Isar error in getRecordsBetween: $e');
+      rethrow;
+    }
+  }
+
+  /// Count records in a date range without loading objects into memory.
+  Future<int> countRecordsBetween(DateTime start, DateTime end) async {
+    try {
+      final isar = await db;
+      return await isar.cutRecordModels
+          .where()
+          .timestampBetween(start, end)
+          .count();
+    } catch (e) {
+      debugPrint('Isar error in countRecordsBetween: $e');
+      rethrow;
+    }
+  }
+
+  /// Sum prices of records in a date range without loading full objects.
+  Future<double> sumPriceBetween(DateTime start, DateTime end) async {
+    try {
+      final isar = await db;
+      final prices = await isar.cutRecordModels
+          .where()
+          .timestampBetween(start, end)
+          .priceProperty()
+          .findAll();
+      return prices.fold<double>(0, (sum, p) => sum + p);
+    } catch (e) {
+      debugPrint('Isar error in sumPriceBetween: $e');
+      rethrow;
+    }
+  }
+
+  /// Total count of all records ever. Uses index scan, never loads objects.
+  Future<int> countAllRecords() async {
+    try {
+      final isar = await db;
+      return await isar.cutRecordModels.count();
+    } catch (e) {
+      debugPrint('Isar error in countAllRecords: $e');
+      rethrow;
+    }
+  }
+
+  /// Sum of all prices ever recorded.
+  Future<double> sumAllPrices() async {
+    try {
+      final isar = await db;
+      final prices = await isar.cutRecordModels
+          .where()
+          .priceProperty()
+          .findAll();
+      return prices.fold<double>(0, (sum, p) => sum + p);
+    } catch (e) {
+      debugPrint('Isar error in sumAllPrices: $e');
+      rethrow;
+    }
+  }
+
+  /// Get the timestamp of the very first (oldest) record, or null if empty.
+  Future<DateTime?> getEarliestRecordDate() async {
+    try {
+      final isar = await db;
+      final oldest = await isar.cutRecordModels
+          .where()
+          .sortByTimestamp()
+          .findFirst();
+      return oldest?.timestamp;
+    } catch (e) {
+      debugPrint('Isar error in getEarliestRecordDate: $e');
+      rethrow;
+    }
+  }
 }

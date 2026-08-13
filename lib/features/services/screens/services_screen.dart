@@ -2,7 +2,6 @@ import 'package:cut_count/core/constants/app_sizes.dart';
 import 'package:cut_count/core/widgets/app_ui/app_ui.dart';
 import 'package:cut_count/core/widgets/auto_size_text/reusable_auto_size_text.dart';
 import 'package:cut_count/core/widgets/buttons/reusable_button.dart';
-import 'package:cut_count/core/widgets/custom_list_tile.dart';
 import 'package:cut_count/core/widgets/text_fields/reusable_text_field.dart';
 import 'package:cut_count/features/services/providers/services_provider.dart';
 import 'package:cut_count/data/models/service_model.dart';
