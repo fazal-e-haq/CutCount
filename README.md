@@ -1,4 +1,4 @@
-# Cut Count
+# CutCount
 
 ![Cut Count Logo](assets/images/app_logo/CutCount-logo.png)
 
